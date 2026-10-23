@@ -97,8 +97,6 @@ function Sidebar() {
                 </button>
               );
             }
-
-            //
           })}
         </div>
       </div>
@@ -163,6 +161,7 @@ function Sidebar() {
                 </button>
               );
             }
+            return null;
           })}
         </div>
       </div>
