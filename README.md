@@ -1,81 +1,72 @@
-# Getting Started with Create React App
+# Nilesh Jayprakash Chaurasiya — Portfolio
 
-The home feed displays a small set of sample videos by default, so it works
-without API credentials. To load live search results, create a `.env` file in
-the project root and add a RapidAPI key for the YouTube v31 API:
+> **Full Stack Developer** specializing in enterprise ERP systems, CRM integrations, and high-performance business web applications using React.js, Angular, Node.js, Express.js, and .NET (C#).
 
-```text
-REACT_APP_SECRET_KEY=your_rapidapi_key
+---
+
+## 👨‍💻 About Nilesh
+
+- **Location**: Nashik, Maharashtra, India
+- **Phone**: [+91 8766573044](tel:+918766573044)
+- **Email**: [nilesh.codes.dev@gmail.com](mailto:nilesh.codes.dev@gmail.com)
+- **LinkedIn**: [linkedin.com/in/nilesh-chaurasiya20](https://linkedin.com/in/nilesh-chaurasiya20)
+- **GitHub**: [github.com/nileshcodesdev-eng](https://github.com/nileshcodesdev-eng)
+
+---
+
+## 🚀 Key Experience & Highlights
+
+### **Software Developer** — *Skeingear Tech* (Jul 2024 – Present)
+- Engineered full-stack modules for enterprise ERP systems with React.js, Angular, Node.js, Express.js, and .NET.
+- Integrated REST APIs connecting core ERP with CRM systems, cutting manual sync time by **40%**.
+- Implemented secure JWT authentication and Role-Based Access Control (RBAC), reducing unauthorized access flags by **90%**.
+- Architected stored procedures and SQL business logic on MySQL and MS SQL Server, improving query performance by **30%**.
+
+### **Data Annotation Intern** — *Occipital Technologies Pvt. Ltd.* (Dec 2021 – Jan 2022)
+- Annotated and labeled 5,000+ data points across 10 datasets for AI/ML validation pipelines.
+- Maintained **95%+ accuracy** against project compliance benchmarks.
+
+---
+
+## 🛠️ Technical Skills
+
+- **Frontend**: React.js, Angular, JavaScript (ES6+), TypeScript, Vite, HTML5, CSS3, Bootstrap, Material UI, Tailwind CSS
+- **Backend**: Node.js, Express.js, ASP.NET, C#, RESTful APIs, JWT Authentication, RBAC
+- **Databases**: MySQL, MS SQL Server, Schema Design, Query Optimization
+- **Tools**: Git, GitHub, Postman, Swagger
+- **Certifications**: Google Data Analytics Professional Certificate (ID: `UKP29AW5365C`)
+
+---
+
+## 🎓 Education
+
+- **Master of Computer Applications (MCA)** — *Chandigarh University* (2024–2026) | **CGPA: 8.70**
+- **Bachelor of Computer Applications (BCA)** — *KTHM College, Nashik (Savitribai Phule Pune University)* (2021–2024) | **CGPA: 7.47**
+
+---
+
+## 💻 Tech Stack of this Portfolio
+
+- **Framework**: Next.js 16 (App Router) & React 19
+- **Animations**: Framer Motion & CSS 3D Perspective Transformations
+- **Particles**: `@tsparticles/react` & `@tsparticles/engine`
+- **Sliders**: Swiper
+- **Styling**: Tailwind CSS v4 & Sora Typography
+- **Icons**: `react-icons`
+
+---
+
+## 🏃 Getting Started
+
+```bash
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+
+# Build production bundle
+npm run build
 ```
 
-Restart `npm start` after adding or changing the environment variable. If the
-API request fails, the app keeps the sample videos visible and shows a notice.
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Open [http://localhost:3000](http://localhost:3000) to view the application.
