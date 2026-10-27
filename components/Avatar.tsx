@@ -1,14 +1,13 @@
 "use client";
 
-import ActiveTheoryHero3D from "./ActiveTheoryHero3D";
+import Earth3D from "./Earth3D";
 
 /**
- * Avatar component now renders the 3D Liquid Glass WebGL Experience inspired by activetheory.net,
- * replacing the previous static image with real-time 3D fluid water dynamics, mouse tracking,
- * and holographic interactive badges.
+ * Avatar component now renders a photorealistic 3D rotating Earth with atmospheric glow,
+ * volumetric cloud layers, night city lights, and real-time mouse tilt & drag interactions.
  */
 const Avatar = () => {
-  return <ActiveTheoryHero3D />;
+  return <Earth3D />;
 };
 
 export default Avatar;

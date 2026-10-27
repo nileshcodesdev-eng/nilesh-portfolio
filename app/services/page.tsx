@@ -22,9 +22,9 @@ const Services = () => {
               initial="hidden"
               animate="show"
               exit="hidden"
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 self-center lg:self-start mb-3 text-xs uppercase tracking-widest text-accent font-semibold"
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/30 self-center lg:self-start mb-3 text-xs uppercase tracking-widest text-cyan-300 font-mono font-semibold"
             >
-              Enterprise Engineering
+              Enterprise Capabilities
             </motion.div>
 
             <motion.h2
@@ -34,7 +34,7 @@ const Services = () => {
               exit="hidden"
               className="h2 text-3xl sm:text-4xl xl:text-5xl font-extrabold mb-4"
             >
-              What I <span className="text-accent">Build.</span>
+              What I <span className="text-cyan-400">Architect.</span>
             </motion.h2>
 
             <motion.p
@@ -42,9 +42,9 @@ const Services = () => {
               initial="hidden"
               animate="show"
               exit="hidden"
-              className="mb-6 max-w-lg mx-auto lg:mx-0 text-sm sm:text-base text-white/70 leading-relaxed"
+              className="mb-6 max-w-lg mx-auto lg:mx-0 text-sm sm:text-base text-slate-300 font-light leading-relaxed"
             >
-              From full-stack enterprise ERP modules and CRM automation pipelines to high-throughput relational SQL architectures and secure role-based platforms.
+              Full-lifecycle enterprise software engineering — from modular ERP architectures and cross-platform CRM integrations to zero-trust RBAC authorization and high-performance SQL databases.
             </motion.p>
 
             <motion.div

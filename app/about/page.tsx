@@ -70,11 +70,11 @@ const experienceData: ExperienceItem[] = [
     company: "Skeingear Tech",
     period: "Jul 2024 – Present",
     bullets: [
-      "Engineered and shipped full-stack modules for enterprise ERP systems using React.js, Angular, Node.js, Express.js, and .NET, supporting multiple concurrent business users across modules.",
-      "Designed and integrated REST APIs connecting the core platform with CRM systems and third-party services, reducing manual data entry and sync time by 40%.",
-      "Implemented secure Authentication & Authorization using JWT and Role-Based Access Control (RBAC) across multiple user roles, cutting unauthorized-access flags by 90%.",
-      "Architected complex business logic and workflow automation on MySQL and MS SQL Server, improving query/report performance by 30% and reducing manual process time.",
-      "Collaborated with cross-functional product and QA teams in an Agile environment to deliver features on sprint cadence, resolving production issues with minimal downtime.",
+      "Architected and deployed multi-tenant ERP modules with React.js, Angular, Node.js, and .NET, empowering business users across enterprise workflows with sub-second response times.",
+      "Engineered automated REST API data pipelines connecting core ERP infrastructure with external CRM platforms, reducing manual data entry and cross-system sync latency by 40%.",
+      "Hardened system security by designing granular Role-Based Access Control (RBAC) and JWT authentication schemas across hierarchical user levels, slashing unauthorized-access flags by 90%.",
+      "Engineered relational schemas, indexing strategies, and stored procedures in MySQL and MS SQL Server, achieving a 30% speedup in critical query and financial reporting throughput.",
+      "Collaborated closely with cross-functional product, QA, and DevOps squads in an Agile environment to consistently deliver production releases with high availability.",
     ],
     skills: ["React.js", "Angular", "Node.js", "Express.js", ".NET", "C#", "MySQL", "MS SQL Server", "JWT", "RBAC", "Agile"],
   },
@@ -202,19 +202,20 @@ const About = () => {
             exit="hidden"
             className="h2 text-2xl sm:text-4xl xl:text-5xl font-extrabold mb-4"
           >
-            Crafting reliable <span className="text-accent">software</span> that powers modern enterprise.
+            Engineering <span className="text-cyan-400">resilient systems</span> that drive modern business.
           </motion.h2>
 
           <motion.p
             variants={fadeIn("right", 0.3)}
             initial="hidden"
             animate="show"
-            className="text-white/70 text-sm sm:text-base leading-relaxed mb-6 px-2 xl:px-0"
+            className="text-slate-300 text-sm sm:text-base leading-relaxed mb-6 px-2 xl:px-0 font-light"
           >
-            I am a Full Stack Developer based in <span className="text-white font-medium">Nashik, Maharashtra</span>, specializing in 
-            architecting enterprise ERP modules, CRM automation, and high-performance full-stack web applications. 
-            My focus is on designing robust REST APIs, resilient database architectures in MySQL and MS SQL Server, 
-            and bulletproof authentication with JWT and RBAC.
+            I am a Full Stack Engineer based in <span className="text-white font-medium">Nashik, India</span>, dedicated to 
+            transforming complex operational workflows into seamless, high-performance digital platforms. 
+            My expertise centers on architecting multi-tenant ERP solutions with <span className="text-white">.NET and Node.js</span>, 
+            building reactive user interfaces with <span className="text-white">React and Angular</span>, and engineering 
+            bulletproof database architectures in <span className="text-white">MS SQL Server and MySQL</span>.
           </motion.p>
 
           {/* Quick Metrics with Liquid Glass Cards */}

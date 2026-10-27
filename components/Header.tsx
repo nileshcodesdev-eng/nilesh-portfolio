@@ -5,35 +5,43 @@ import Socials from "@/components/Socials";
 
 const Header = () => {
   return (
-    <header className="absolute z-30 w-full items-center px-6 xl:px-16 xl:h-24">
-      <div className="container mx-auto">
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-y-4 py-4 sm:py-6">
-          <Link prefetch href="/" className="group flex items-center gap-3">
-            {/* Liquid Glass Monogram Logo */}
-            <div className="relative w-11 h-11 rounded-2xl bg-gradient-to-br from-[#f13024] via-[#7928ca] to-[#06b6d4] p-[1px] shadow-lg shadow-cyan-500/10 group-hover:shadow-cyan-400/30 group-hover:scale-105 transition-all duration-300">
-              <div className="w-full h-full rounded-[15px] bg-[#0c0e1a]/90 backdrop-blur-md flex items-center justify-center font-extrabold text-sm text-white font-mono tracking-wider">
+    <header className="fixed top-0 left-0 z-40 w-full bg-[#080a18]/75 backdrop-blur-xl border-b border-white/10 transition-all duration-300">
+      <div className="container mx-auto px-4 sm:px-8 py-3.5 sm:py-4">
+        <div className="flex flex-row justify-between items-center gap-x-4">
+          {/* Logo & Name - High Contrast & Razor Sharp */}
+          <Link prefetch href="/" className="group flex items-center gap-3.5">
+            {/* Glowing Monogram Icon */}
+            <div className="relative w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#f13024] via-[#7928ca] to-[#00f0ff] p-[1.5px] shadow-lg shadow-cyan-500/20 group-hover:shadow-cyan-400/40 group-hover:scale-105 transition-all duration-300 shrink-0">
+              <div className="w-full h-full rounded-[14px] bg-[#0c0e20] flex items-center justify-center font-extrabold text-sm text-white font-mono tracking-wider">
                 NC
               </div>
             </div>
 
+            {/* Clearly Visible Name & Title */}
             <div className="flex flex-col text-left">
-              <span className="text-xl sm:text-2xl font-bold tracking-tight text-white flex items-center gap-1.5">
-                nilesh<span className="font-light text-white/70">chaurasiya</span>
-                <span className="relative flex h-2 w-2 ml-1">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
+              <div className="flex items-center gap-2">
+                <span className="text-lg sm:text-2xl font-black tracking-tight text-white drop-shadow-sm">
+                  Nilesh{" "}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-cyan-400 font-extrabold">
+                    Chaurasiya
+                  </span>
                 </span>
-              </span>
-              <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-white/50 font-medium">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-400"></span>
+                </span>
+              </div>
+              <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.18em] text-cyan-200/70 font-medium">
                 Full Stack Developer &bull; ERP &amp; Cloud
               </span>
             </div>
           </Link>
 
-          <div className="flex items-center gap-x-4 sm:gap-x-6">
+          {/* Right Action Items */}
+          <div className="flex items-center gap-x-3 sm:gap-x-6">
             <Link
               href="/contact"
-              className="hidden md:flex items-center gap-x-2 text-[11px] font-mono uppercase tracking-wider py-1.5 px-4 rounded-full bg-white/[0.04] border border-white/15 hover:border-cyan-400/60 text-white/80 hover:text-white backdrop-blur-md transition-all duration-300 shadow-lg shadow-black/30"
+              className="hidden sm:flex items-center gap-x-2 text-[11px] font-mono uppercase tracking-wider py-1.5 px-4 rounded-full bg-white/[0.06] border border-cyan-400/30 hover:border-cyan-400 text-white backdrop-blur-md transition-all duration-300 shadow-md shadow-black/40 hover:bg-cyan-500/10"
             >
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               <span>Available for Hire</span>

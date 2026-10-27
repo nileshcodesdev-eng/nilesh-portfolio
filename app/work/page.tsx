@@ -22,7 +22,7 @@ const Work = () => {
               initial="hidden"
               animate="show"
               exit="hidden"
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 self-center lg:self-start mb-3 text-xs uppercase tracking-widest text-accent font-semibold"
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/30 self-center lg:self-start mb-3 text-xs uppercase tracking-widest text-cyan-300 font-mono font-semibold"
             >
               Portfolio &amp; Case Studies
             </motion.div>
@@ -34,7 +34,7 @@ const Work = () => {
               exit="hidden"
               className="h2 text-3xl sm:text-4xl xl:text-5xl font-extrabold mb-4"
             >
-              Featured <span className="text-accent">Systems.</span>
+              Featured <span className="text-cyan-400">Systems.</span>
             </motion.h2>
 
             <motion.p
@@ -42,9 +42,9 @@ const Work = () => {
               initial="hidden"
               animate="show"
               exit="hidden"
-              className="mb-6 max-w-lg mx-auto lg:mx-0 text-sm sm:text-base text-white/70 leading-relaxed"
+              className="mb-6 max-w-lg mx-auto lg:mx-0 text-sm sm:text-base text-slate-300 font-light leading-relaxed"
             >
-              Enterprise cloud managers, subscription analytics platforms, and full-stack ERP integration suites built with <span className="text-white font-medium">Angular, React.js, .NET (C#), Node.js</span>, and <span className="text-white font-medium">MS SQL Server</span>.
+              Production-grade cloud data environments, real-time consumer analytics platforms, and full-stack ERP integration suites engineered with <span className="text-white font-medium">Angular, React.js, .NET (C#), Node.js</span>, and <span className="text-white font-medium">MS SQL Server</span>.
             </motion.p>
 
             <motion.div
