@@ -18,36 +18,44 @@ const Transition = () => {
     },
   };
 
+  // Active Theory signature smooth cubic bezier easing
+  const smoothEase = [0.22, 1, 0.36, 1] as const;
+
   return (
     <>
+      {/* Primary Liquid Wave Layer (Deep Oceanic Cyan) */}
       <motion.div
         role="status"
-        className="fixed top-0 bottom-0 right-full w-screen h-screen z-30 bg-[#2e2257]"
+        className="fixed top-0 bottom-0 right-full w-screen h-screen z-40 bg-[#06b6d4]/90 backdrop-blur-xl"
         variants={transitionVariants}
         initial="initial"
         animate="animate"
         exit="exit"
-        transition={{ delay: 0.2, duration: 0.6, ease: "easeInOut" }}
+        transition={{ delay: 0.05, duration: 0.65, ease: smoothEase }}
         aria-hidden
       />
+
+      {/* Secondary Liquid Wave Layer (Electric Violet / Magenta) */}
       <motion.div
         role="status"
-        className="fixed top-0 bottom-0 right-full w-screen h-screen z-20 bg-[#3b2d71]"
+        className="fixed top-0 bottom-0 right-full w-screen h-screen z-30 bg-[#4f1f85]/95 backdrop-blur-lg"
         variants={transitionVariants}
         initial="initial"
         animate="animate"
         exit="exit"
-        transition={{ delay: 0.4, duration: 0.6, ease: "easeInOut" }}
+        transition={{ delay: 0.2, duration: 0.65, ease: smoothEase }}
         aria-hidden
       />
+
+      {/* Base Obsidian Glass Layer */}
       <motion.div
         role="status"
-        className="fixed top-0 bottom-0 right-full w-screen h-screen z-10 bg-[#4b3792]"
+        className="fixed top-0 bottom-0 right-full w-screen h-screen z-20 bg-[#0b0c16]"
         variants={transitionVariants}
         initial="initial"
         animate="animate"
         exit="exit"
-        transition={{ delay: 0.6, duration: 0.6, ease: "easeInOut" }}
+        transition={{ delay: 0.35, duration: 0.65, ease: smoothEase }}
         aria-hidden
       />
     </>

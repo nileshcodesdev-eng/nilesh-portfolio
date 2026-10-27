@@ -77,7 +77,7 @@ const Services = () => {
             >
               <Link
                 href="/contact"
-                className="btn px-6 rounded-full bg-gradient-to-r from-accent to-purple-600 text-white text-xs font-semibold flex items-center gap-2 hover:shadow-lg hover:shadow-accent/30 transition-all duration-300"
+                className="btn px-6 rounded-full water-shimmer-btn text-white text-xs font-semibold flex items-center gap-2 hover:scale-105 transition-all duration-300 shadow-xl"
               >
                 <span>Discuss Your Project</span>
                 <BsArrowRight className="text-sm" />

@@ -217,70 +217,70 @@ const About = () => {
             and bulletproof authentication with JWT and RBAC.
           </motion.p>
 
-          {/* Quick Metrics */}
+          {/* Quick Metrics with Liquid Glass Cards */}
           <motion.div
             variants={fadeIn("right", 0.4)}
             initial="hidden"
             animate="show"
             className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6"
           >
-            <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-center">
-              <div className="text-2xl font-extrabold text-accent">
+            <div className="p-3.5 rounded-2xl bg-[#0c0e1a]/80 backdrop-blur-xl border border-white/10 hover:border-cyan-400/40 text-center transition-all duration-300">
+              <div className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-accent to-rose-400">
                 <CountUp start={0} end={2} duration={3} />+
               </div>
-              <div className="text-[10px] uppercase tracking-wider text-white/60">
+              <div className="text-[10px] font-mono uppercase tracking-wider text-white/60">
                 Years Exp.
               </div>
             </div>
 
-            <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-center">
-              <div className="text-2xl font-extrabold text-accent">
+            <div className="p-3.5 rounded-2xl bg-[#0c0e1a]/80 backdrop-blur-xl border border-white/10 hover:border-cyan-400/40 text-center transition-all duration-300">
+              <div className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
                 <CountUp start={0} end={40} duration={3} />%
               </div>
-              <div className="text-[10px] uppercase tracking-wider text-white/60">
+              <div className="text-[10px] font-mono uppercase tracking-wider text-white/60">
                 Data Sync Saved
               </div>
             </div>
 
-            <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-center">
-              <div className="text-2xl font-extrabold text-accent">
+            <div className="p-3.5 rounded-2xl bg-[#0c0e1a]/80 backdrop-blur-xl border border-white/10 hover:border-cyan-400/40 text-center transition-all duration-300">
+              <div className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
                 <CountUp start={0} end={90} duration={3} />%
               </div>
-              <div className="text-[10px] uppercase tracking-wider text-white/60">
+              <div className="text-[10px] font-mono uppercase tracking-wider text-white/60">
                 Auth Flags Cut
               </div>
             </div>
 
-            <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-center">
-              <div className="text-2xl font-extrabold text-accent">
+            <div className="p-3.5 rounded-2xl bg-[#0c0e1a]/80 backdrop-blur-xl border border-white/10 hover:border-cyan-400/40 text-center transition-all duration-300">
+              <div className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">
                 8.70
               </div>
-              <div className="text-[10px] uppercase tracking-wider text-white/60">
+              <div className="text-[10px] font-mono uppercase tracking-wider text-white/60">
                 MCA CGPA
               </div>
             </div>
           </motion.div>
 
-          {/* Quick Contact Card */}
+          {/* Quick Contact Card with Frosted Glass */}
           <motion.div
             variants={fadeIn("right", 0.5)}
             initial="hidden"
             animate="show"
-            className="hidden sm:flex flex-col gap-1.5 p-4 rounded-xl bg-gradient-to-r from-white/5 to-white/10 border border-white/10 text-xs text-white/80"
+            className="hidden sm:flex flex-col gap-2 p-5 rounded-2xl bg-[#0c0e1a]/80 backdrop-blur-xl border border-white/10 hover:border-cyan-400/30 text-xs text-white/80 shadow-2xl transition-all duration-300"
           >
-            <div className="flex items-center justify-between">
-              <span className="text-white/50">Location:</span>
+            <div className="flex items-center justify-between font-mono text-[11px]">
+              <span className="text-white/40">// LOCATION:</span>
               <span className="font-medium text-white">Nashik, Maharashtra, India</span>
             </div>
-            <div className="flex items-center justify-between">
-              <span className="text-white/50">Email:</span>
-              <a href="mailto:nilesh.codes.dev@gmail.com" className="hover:text-accent underline transition-colors">
+            <div className="flex items-center justify-between font-mono text-[11px]">
+              <span className="text-white/40">// EMAIL:</span>
+              <a href="mailto:nilesh.codes.dev@gmail.com" className="hover:text-cyan-400 underline transition-colors">
                 nilesh.codes.dev@gmail.com
               </a>
             </div>
-            <div className="flex items-center justify-between">
-              <span className="text-white/50">Phone:</span>
-              <a href="tel:+918766573044" className="hover:text-accent font-medium transition-colors">
+            <div className="flex items-center justify-between font-mono text-[11px]">
+              <span className="text-white/40">// PHONE:</span>
+              <a href="tel:+918766573044" className="hover:text-cyan-400 font-medium transition-colors">
                 +91 8766573044
               </a>
             </div>
@@ -295,7 +295,7 @@ const About = () => {
           exit="hidden"
           className="w-full xl:w-[58%] flex flex-col"
         >
-          {/* Tabs Navigation */}
+          {/* Tabs Navigation with Liquid Glass Aesthetic */}
           <div className="flex flex-wrap gap-2 sm:gap-3 mb-6 border-b border-white/10 pb-3 justify-center xl:justify-start">
             {tabs.map((tab) => {
               const Icon = tab.icon;
@@ -304,14 +304,14 @@ const About = () => {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as typeof activeTab)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 ${
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-mono tracking-wider transition-all duration-300 ${
                     isActive
-                      ? "bg-accent text-white shadow-lg shadow-accent/25"
-                      : "bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10"
+                      ? "water-shimmer-btn text-white shadow-lg shadow-cyan-500/20"
+                      : "bg-white/[0.04] hover:bg-white/[0.08] text-white/70 hover:text-white border border-white/10 backdrop-blur-md"
                   }`}
                 >
                   <Icon className="text-sm" />
-                  <span>{tab.label}</span>
+                  <span>[ {tab.label} ]</span>
                 </button>
               );
             })}

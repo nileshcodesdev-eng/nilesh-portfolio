@@ -50,10 +50,10 @@ const TestimonialSlider = () => {
     >
       {testimonialData.map((person, i) => (
         <SwiperSlide key={i}>
-          <TiltCard tiltDegree={4} className="rounded-2xl">
-            <div className="flex flex-col items-center md:flex-row gap-8 p-6 sm:p-10 rounded-2xl bg-gradient-to-r from-white/10 via-white/5 to-transparent border border-white/10 backdrop-blur-md shadow-2xl">
+          <TiltCard tiltDegree={4} className="rounded-3xl">
+            <div className="flex flex-col items-center md:flex-row gap-8 p-6 sm:p-10 rounded-3xl bg-[#0c0e1a]/85 border border-white/15 hover:border-cyan-400/40 backdrop-blur-2xl shadow-2xl transition-all duration-300">
               <div className="w-full md:w-60 flex flex-col items-center text-center shrink-0">
-                <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-accent/60 mb-3 relative shadow-lg shadow-accent/20">
+                <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-cyan-400/60 mb-3 relative shadow-lg shadow-cyan-500/25">
                   <Image
                     src={person.image}
                     fill
@@ -67,8 +67,8 @@ const TestimonialSlider = () => {
                   {person.name}
                 </div>
 
-                <div className="text-xs text-accent font-semibold mb-1">
-                  {person.company}
+                <div className="text-xs text-cyan-400 font-mono font-semibold mb-1">
+                  [ {person.company} ]
                 </div>
 
                 <div className="text-[11px] text-white/50 uppercase tracking-wider font-light">
@@ -85,7 +85,7 @@ const TestimonialSlider = () => {
               <div className="flex-1 flex flex-col justify-center relative md:pl-8 md:border-l border-white/15">
                 <div className="mb-3">
                   <FaQuoteLeft
-                    className="text-3xl text-accent/40"
+                    className="text-3xl text-cyan-400/40"
                     aria-hidden
                   />
                 </div>

@@ -114,9 +114,9 @@ const WorkSlider = () => {
         {projectsList.map((project, idx) => (
           <SwiperSlide key={idx}>
             <TiltCard tiltDegree={8} className="rounded-2xl h-full">
-              <div className="group relative rounded-2xl overflow-hidden bg-white/5 border border-white/10 hover:border-accent/50 backdrop-blur-md transition-all duration-500 flex flex-col h-full shadow-xl">
+              <div className="group relative rounded-2xl overflow-hidden bg-[#0c0e1a]/80 border border-white/15 hover:border-cyan-400/50 backdrop-blur-2xl transition-all duration-500 flex flex-col h-full shadow-2xl hover:shadow-cyan-500/10">
                 {/* Image Container with Preview Overlay */}
-                <div className="relative aspect-video w-full overflow-hidden bg-black/40">
+                <div className="relative aspect-video w-full overflow-hidden bg-black/50">
                   <Image
                     src={project.image}
                     alt={project.title}
@@ -125,13 +125,13 @@ const WorkSlider = () => {
                     className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                   />
 
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#131424] via-transparent to-transparent opacity-90" />
+                  {/* Gradient Liquid Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0c0e1a] via-transparent to-transparent opacity-90" />
 
-                  {/* Category Pill */}
+                  {/* Active Theory Category Pill */}
                   <div className="absolute top-3 left-3 z-10">
-                    <span className="text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-black/70 border border-white/20 text-accent backdrop-blur-md">
-                      {project.category}
+                    <span className="text-[10px] font-mono uppercase tracking-wider px-3 py-1 rounded-full bg-black/80 border border-cyan-400/40 text-cyan-300 backdrop-blur-md shadow-lg">
+                      [ {project.category} ]
                     </span>
                   </div>
 
@@ -139,7 +139,7 @@ const WorkSlider = () => {
                   <div className="absolute bottom-3 right-3 z-10 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <button
                       onClick={() => setSelectedProject(project)}
-                      className="p-2 rounded-full bg-white/20 hover:bg-accent text-white backdrop-blur-md transition-all duration-200"
+                      className="p-2.5 rounded-full bg-black/60 hover:bg-cyan-500 text-white backdrop-blur-md border border-white/20 transition-all duration-200"
                       title="Inspect Details"
                     >
                       <BsEye className="text-sm" />
@@ -148,7 +148,7 @@ const WorkSlider = () => {
                       href={project.github}
                       target="_blank"
                       rel="noreferrer noopener"
-                      className="p-2 rounded-full bg-white/20 hover:bg-accent text-white backdrop-blur-md transition-all duration-200"
+                      className="p-2.5 rounded-full bg-black/60 hover:bg-cyan-500 text-white backdrop-blur-md border border-white/20 transition-all duration-200"
                       title="View GitHub"
                     >
                       <BsGithub className="text-sm" />
@@ -159,7 +159,7 @@ const WorkSlider = () => {
                 {/* Content */}
                 <div className="p-5 flex flex-col flex-1 justify-between gap-3">
                   <div>
-                    <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-accent transition-colors duration-300 mb-1.5">
+                    <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-cyan-300 transition-colors duration-300 mb-1.5">
                       {project.title}
                     </h3>
                     <p className="text-xs text-white/70 line-clamp-2 leading-relaxed">
@@ -173,7 +173,7 @@ const WorkSlider = () => {
                       {project.tech.map((t, tIdx) => (
                         <span
                           key={tIdx}
-                          className="text-[10px] px-2 py-0.5 rounded bg-white/5 border border-white/10 text-white/80"
+                          className="text-[10px] px-2.5 py-0.5 rounded-md bg-white/[0.05] border border-white/10 text-white/80 font-mono"
                         >
                           {t}
                         </span>
@@ -181,12 +181,12 @@ const WorkSlider = () => {
                     </div>
 
                     <div className="pt-3 border-t border-white/10 flex items-center justify-between">
-                      <span className="text-[11px] font-medium text-emerald-400">
+                      <span className="text-[11px] font-mono text-cyan-400">
                         {project.metrics}
                       </span>
                       <button
                         onClick={() => setSelectedProject(project)}
-                        className="text-xs text-accent flex items-center gap-1 font-semibold hover:underline"
+                        className="text-xs text-accent flex items-center gap-1.5 font-semibold hover:text-cyan-400 transition-colors"
                       >
                         <span>Details</span>
                         <BsArrowRight />
@@ -200,27 +200,27 @@ const WorkSlider = () => {
         ))}
       </Swiper>
 
-      {/* Modal Dialog for Project Deep-Dive */}
+      {/* Modal Dialog for Project Deep-Dive with Active Theory Liquid Glass */}
       {selectedProject && (
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-xl"
           onClick={() => setSelectedProject(null)}
         >
           <div
-            className="relative w-full max-w-2xl bg-[#1b1c31] border border-white/20 rounded-2xl p-6 shadow-2xl overflow-hidden text-left"
+            className="relative w-full max-w-2xl bg-[#0e101f]/95 border border-white/20 rounded-3xl p-6 sm:p-8 shadow-2xl shadow-cyan-500/10 overflow-hidden text-left"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
             <button
               onClick={() => setSelectedProject(null)}
-              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 hover:bg-accent text-white flex items-center justify-center transition-colors"
+              className="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/10 hover:bg-accent text-white flex items-center justify-center transition-colors border border-white/20"
             >
               &times;
             </button>
 
-            <div className="relative aspect-video w-full rounded-xl overflow-hidden mb-4 border border-white/10">
+            <div className="relative aspect-video w-full rounded-2xl overflow-hidden mb-4 border border-white/15">
               <Image
                 src={selectedProject.image}
                 alt={selectedProject.title}
@@ -230,35 +230,35 @@ const WorkSlider = () => {
             </div>
 
             <div className="flex items-center gap-2 mb-2">
-              <span className="text-xs uppercase tracking-wider font-semibold text-accent px-2.5 py-0.5 rounded-full bg-accent/15 border border-accent/30">
-                {selectedProject.category}
+              <span className="text-xs font-mono uppercase tracking-wider font-semibold text-cyan-400 px-3 py-1 rounded-full bg-cyan-500/15 border border-cyan-500/30">
+                [ {selectedProject.category} ]
               </span>
             </div>
 
-            <h3 className="text-xl font-bold text-white mb-2">
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
               {selectedProject.title}
             </h3>
 
-            <p className="text-sm text-white/70 mb-4 leading-relaxed">
+            <p className="text-sm text-white/70 mb-5 leading-relaxed">
               {selectedProject.description}
             </p>
 
-            <div className="mb-4">
-              <h4 className="text-xs uppercase tracking-wider text-white/50 font-bold mb-2">
-                Key Contributions &amp; Architectural Highlights
+            <div className="mb-5">
+              <h4 className="text-xs font-mono uppercase tracking-wider text-white/50 font-bold mb-2">
+                // ARCHITECTURAL CONTRIBUTIONS
               </h4>
-              <ul className="list-disc list-outside pl-4 space-y-1 text-xs text-white/80 leading-relaxed">
+              <ul className="list-disc list-outside pl-4 space-y-1.5 text-xs text-white/80 leading-relaxed">
                 {selectedProject.bullets.map((bullet, bIdx) => (
                   <li key={bIdx}>{bullet}</li>
                 ))}
               </ul>
             </div>
 
-            <div className="flex flex-wrap gap-1.5 mb-5">
+            <div className="flex flex-wrap gap-1.5 mb-6">
               {selectedProject.tech.map((t, idx) => (
                 <span
                   key={idx}
-                  className="text-xs px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-white/90"
+                  className="text-xs px-3 py-1 rounded-lg bg-white/[0.06] border border-white/10 text-white/90 font-mono"
                 >
                   {t}
                 </span>
@@ -266,7 +266,7 @@ const WorkSlider = () => {
             </div>
 
             <div className="flex items-center justify-between pt-4 border-t border-white/10">
-              <span className="text-xs text-emerald-400 font-semibold">
+              <span className="text-xs font-mono text-cyan-400">
                 {selectedProject.metrics}
               </span>
               <div className="flex items-center gap-3">
@@ -274,7 +274,7 @@ const WorkSlider = () => {
                   href={selectedProject.github}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="btn h-9 px-4 rounded-lg bg-accent text-white text-xs font-semibold flex items-center gap-2 hover:bg-accent/80 transition-all"
+                  className="btn h-9 px-5 rounded-full water-shimmer-btn text-white text-xs font-semibold flex items-center gap-2 hover:scale-105 transition-all"
                 >
                   <BsGithub />
                   <span>GitHub Repository</span>

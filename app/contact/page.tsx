@@ -274,7 +274,7 @@ const ContactFormInner = ({ useRecaptcha = false }: FormProps) => {
       <div className="flex items-center justify-between pt-2">
         <button
           type="submit"
-          className="btn rounded-full bg-gradient-to-r from-accent to-purple-600 px-8 py-3 text-white text-xs sm:text-sm font-semibold tracking-wide transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-accent/30 hover:scale-105 disabled:pointer-events-none disabled:opacity-60"
+          className="btn rounded-full water-shimmer-btn px-8 py-3 text-white text-xs sm:text-sm font-semibold tracking-wide transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105 disabled:pointer-events-none disabled:opacity-60 shadow-xl"
           disabled={isLoading}
         >
           <span>{isLoading ? "Sending..." : "Send Message"}</span>

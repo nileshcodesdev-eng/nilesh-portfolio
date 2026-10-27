@@ -29,7 +29,7 @@ const serviceData: {
   {
     Icon: RxLayers,
     title: "Enterprise ERP Engineering",
-    badge: "Core Expertise",
+    badge: "Core Architecture",
     description:
       "Engineering full-stack ERP modules in React.js, Angular, Node.js, and .NET supporting concurrent business operations across multi-tenant environments.",
     technologies: ["React.js", "Angular", ".NET", "C#", "Node.js"],
@@ -53,7 +53,7 @@ const serviceData: {
   {
     Icon: RxLockClosed,
     title: "Auth & RBAC Architecture",
-    badge: "Security",
+    badge: "Zero-Trust Security",
     description:
       "Implementing zero-trust Role-Based Access Control (RBAC) and JWT authentication across granular user tiers, cutting unauthorized access flags by 90%.",
     technologies: ["JWT", "RBAC", "Access Control", "Security"],
@@ -103,19 +103,19 @@ const ServiceSlider = () => {
       {serviceData.map((item, i) => (
         <SwiperSlide key={i}>
           <TiltCard tiltDegree={6} className="h-full rounded-2xl">
-            <div className="bg-gradient-to-b from-white/10 via-white/5 to-transparent h-full rounded-2xl p-6 sm:p-7 flex flex-col justify-between border border-white/10 hover:border-accent/50 backdrop-blur-md group cursor-pointer transition-all duration-300 shadow-xl">
+            <div className="bg-[#0c0e1a]/80 backdrop-blur-2xl h-full rounded-2xl p-6 sm:p-7 flex flex-col justify-between border border-white/15 hover:border-cyan-400/50 group cursor-pointer transition-all duration-300 shadow-2xl hover:shadow-cyan-500/10">
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-accent/20 border border-accent/40 flex items-center justify-center text-2xl text-accent group-hover:scale-110 group-hover:bg-accent group-hover:text-white transition-all duration-300">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-cyan-500/20 to-accent/20 border border-cyan-400/30 flex items-center justify-center text-2xl text-cyan-300 group-hover:scale-110 group-hover:bg-cyan-500 group-hover:text-white transition-all duration-300 shadow-lg shadow-cyan-500/10">
                     <item.Icon aria-hidden />
                   </div>
-                  <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/5 text-white/60 border border-white/10">
-                    {item.badge}
+                  <span className="text-[10px] font-mono uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/[0.05] text-cyan-400 border border-white/10">
+                    [ {item.badge} ]
                   </span>
                 </div>
 
                 <div className="mb-4">
-                  <h3 className="mb-2 text-base font-bold text-white group-hover:text-accent transition-colors duration-300">
+                  <h3 className="mb-2 text-base font-bold text-white group-hover:text-cyan-300 transition-colors duration-300">
                     {item.title}
                   </h3>
                   <p className="text-xs text-white/70 leading-relaxed">
@@ -129,18 +129,18 @@ const ServiceSlider = () => {
                   {item.technologies.map((tech, tIdx) => (
                     <span
                       key={tIdx}
-                      className="text-[10px] px-2 py-0.5 rounded bg-black/40 text-white/70"
+                      className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] text-white/70 border border-white/5"
                     >
                       {tech}
                     </span>
                   ))}
                 </div>
 
-                <div className="flex items-center justify-between text-xs font-semibold text-white/50 group-hover:text-white transition-colors">
-                  <span>Explore Capabilities</span>
+                <div className="flex items-center justify-between text-xs font-semibold text-white/50 group-hover:text-cyan-300 transition-colors">
+                  <span className="font-mono text-[11px]">SYS.CAPABILITY</span>
                   <div className="text-xl">
                     <RxArrowTopRight
-                      className="group-hover:rotate-45 group-hover:text-accent transition-all duration-300"
+                      className="group-hover:rotate-45 group-hover:text-cyan-400 transition-all duration-300"
                       aria-hidden
                     />
                   </div>
