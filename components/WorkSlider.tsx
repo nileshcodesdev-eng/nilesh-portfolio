@@ -114,7 +114,10 @@ const WorkSlider = () => {
         {projectsList.map((project, idx) => (
           <SwiperSlide key={idx}>
             <TiltCard tiltDegree={8} className="rounded-2xl h-full">
-              <div className="group relative rounded-2xl overflow-hidden bg-[#0c0e1a]/80 border border-white/15 hover:border-cyan-400/50 backdrop-blur-2xl transition-all duration-500 flex flex-col h-full shadow-2xl hover:shadow-cyan-500/10">
+              <div
+                onClick={() => setSelectedProject(project)}
+                className="group relative rounded-2xl overflow-hidden bg-[#0c0e1a]/80 border border-white/15 hover:border-cyan-400/50 backdrop-blur-2xl transition-all duration-500 flex flex-col h-full shadow-2xl hover:shadow-cyan-500/10 cursor-pointer"
+              >
                 {/* Image Container with Preview Overlay */}
                 <div className="relative aspect-video w-full overflow-hidden bg-black/50">
                   <Image
@@ -130,16 +133,19 @@ const WorkSlider = () => {
 
                   {/* Active Theory Category Pill */}
                   <div className="absolute top-3 left-3 z-10">
-                    <span className="text-[10px] font-mono uppercase tracking-wider px-3 py-1 rounded-full bg-black/80 border border-cyan-400/40 text-cyan-300 backdrop-blur-md shadow-lg">
+                    <span className="text-[10px] font-mono uppercase tracking-wider px-2.5 sm:px-3 py-1 rounded-full bg-black/80 border border-cyan-400/40 text-cyan-300 backdrop-blur-md shadow-lg">
                       [ {project.category} ]
                     </span>
                   </div>
 
-                  {/* Quick Action Buttons */}
-                  <div className="absolute bottom-3 right-3 z-10 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {/* Quick Action Buttons (Always visible on mobile touch devices) */}
+                  <div className="absolute bottom-3 right-3 z-10 flex items-center gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300">
                     <button
-                      onClick={() => setSelectedProject(project)}
-                      className="p-2.5 rounded-full bg-black/60 hover:bg-cyan-500 text-white backdrop-blur-md border border-white/20 transition-all duration-200"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedProject(project);
+                      }}
+                      className="p-2 sm:p-2.5 rounded-full bg-black/70 hover:bg-cyan-500 text-white backdrop-blur-md border border-white/20 transition-all duration-200"
                       title="Inspect Details"
                     >
                       <BsEye className="text-sm" />
@@ -148,7 +154,8 @@ const WorkSlider = () => {
                       href={project.github}
                       target="_blank"
                       rel="noreferrer noopener"
-                      className="p-2.5 rounded-full bg-black/60 hover:bg-cyan-500 text-white backdrop-blur-md border border-white/20 transition-all duration-200"
+                      onClick={(e) => e.stopPropagation()}
+                      className="p-2 sm:p-2.5 rounded-full bg-black/70 hover:bg-cyan-500 text-white backdrop-blur-md border border-white/20 transition-all duration-200"
                       title="View GitHub"
                     >
                       <BsGithub className="text-sm" />
@@ -157,7 +164,7 @@ const WorkSlider = () => {
                 </div>
 
                 {/* Content */}
-                <div className="p-5 flex flex-col flex-1 justify-between gap-3">
+                <div className="p-4 sm:p-5 flex flex-col flex-1 justify-between gap-3">
                   <div>
                     <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-cyan-300 transition-colors duration-300 mb-1.5">
                       {project.title}
@@ -169,11 +176,11 @@ const WorkSlider = () => {
 
                   {/* Tech stack tags */}
                   <div>
-                    <div className="flex flex-wrap gap-1.5 mb-3">
+                    <div className="flex flex-wrap gap-1 sm:gap-1.5 mb-3">
                       {project.tech.map((t, tIdx) => (
                         <span
                           key={tIdx}
-                          className="text-[10px] px-2.5 py-0.5 rounded-md bg-white/[0.05] border border-white/10 text-white/80 font-mono"
+                          className="text-[9px] sm:text-[10px] px-2 sm:px-2.5 py-0.5 rounded-md bg-white/[0.05] border border-white/10 text-white/80 font-mono"
                         >
                           {t}
                         </span>
@@ -181,11 +188,14 @@ const WorkSlider = () => {
                     </div>
 
                     <div className="pt-3 border-t border-white/10 flex items-center justify-between">
-                      <span className="text-[11px] font-mono text-cyan-400">
+                      <span className="text-[10px] sm:text-[11px] font-mono text-cyan-400">
                         {project.metrics}
                       </span>
                       <button
-                        onClick={() => setSelectedProject(project)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedProject(project);
+                        }}
                         className="text-xs text-accent flex items-center gap-1.5 font-semibold hover:text-cyan-400 transition-colors"
                       >
                         <span>Details</span>
@@ -205,17 +215,17 @@ const WorkSlider = () => {
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-xl"
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-xl"
           onClick={() => setSelectedProject(null)}
         >
           <div
-            className="relative w-full max-w-2xl bg-[#0e101f]/95 border border-white/20 rounded-3xl p-6 sm:p-8 shadow-2xl shadow-cyan-500/10 overflow-hidden text-left"
+            className="relative w-full max-w-2xl max-h-[88vh] overflow-y-auto bg-[#0e101f]/95 border border-white/20 rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-2xl shadow-cyan-500/10 text-left"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
             <button
               onClick={() => setSelectedProject(null)}
-              className="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/10 hover:bg-accent text-white flex items-center justify-center transition-colors border border-white/20"
+              className="absolute top-4 right-4 sm:top-5 sm:right-5 w-8 h-8 rounded-full bg-white/10 hover:bg-accent text-white flex items-center justify-center transition-colors border border-white/20 z-10 text-lg"
             >
               &times;
             </button>

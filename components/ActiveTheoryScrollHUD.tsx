@@ -152,11 +152,19 @@ export const ActiveTheoryScrollHUD: React.FC<ActiveTheoryScrollHUDProps> = ({
         </div>
       </div>
 
-      {/* --- Bottom Left Ambient Sound Synthesizer Toggle --- */}
-      <div className="fixed bottom-6 left-8 pointer-events-auto">
+      {/* --- Mobile Top Right Telemetry Tag --- */}
+      <div className="flex sm:hidden fixed top-18 right-3 items-center gap-2 px-2.5 py-1 rounded-full bg-black/75 border border-white/15 backdrop-blur-md text-[9px] pointer-events-auto shadow-lg z-30">
+        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+        <span className="text-cyan-300 font-bold">0{currentStage} / 05</span>
+        <span className="text-white/20">|</span>
+        <span className="text-white font-bold">{percent}%</span>
+      </div>
+
+      {/* --- Bottom Left Ambient Sound Synthesizer Toggle (Lifted above mobile dock) --- */}
+      <div className="fixed bottom-20 left-3 sm:bottom-6 sm:left-8 pointer-events-auto z-30">
         <button
           onClick={toggleAudio}
-          className="flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-black/60 border border-white/10 hover:border-cyan-400/50 backdrop-blur-md transition-all duration-300 group shadow-lg"
+          className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/70 border border-white/15 hover:border-cyan-400/50 backdrop-blur-md transition-all duration-300 group shadow-lg text-[9px] sm:text-[10px]"
           title="Toggle Active Theory Ambient Audio Synthesizer"
         >
           <BsSoundwave
@@ -164,8 +172,8 @@ export const ActiveTheoryScrollHUD: React.FC<ActiveTheoryScrollHUDProps> = ({
               isAudioPlaying ? "text-cyan-400 animate-pulse" : "text-slate-500"
             }`}
           />
-          <span className="text-[10px] uppercase text-slate-300 group-hover:text-white transition-colors">
-            SOUND: [{isAudioPlaying ? "LIVE" : "MUTE"}]
+          <span className="uppercase text-slate-300 group-hover:text-white transition-colors">
+            [{isAudioPlaying ? "LIVE" : "MUTE"}]
           </span>
           {isAudioPlaying && (
             <div className="flex items-end gap-0.5 h-3">
@@ -177,15 +185,15 @@ export const ActiveTheoryScrollHUD: React.FC<ActiveTheoryScrollHUDProps> = ({
         </button>
       </div>
 
-      {/* --- Bottom Center Scroll Prompt (Fades out when scrolled) --- */}
+      {/* --- Bottom Center Scroll Prompt (Lifted above mobile dock) --- */}
       <div
-        className="fixed bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none transition-opacity duration-500 uppercase"
+        className="fixed bottom-20 left-1/2 -translate-x-1/2 sm:bottom-6 flex flex-col items-center gap-2 pointer-events-none transition-opacity duration-500 uppercase z-20"
         style={{ opacity: Math.max(0, 1 - progress * 5.5) }}
       >
-        <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/15 shadow-xl">
+        <div className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-black/70 backdrop-blur-md border border-white/15 shadow-xl text-[9px] sm:text-[10px]">
           <BsMouse className="text-cyan-400 animate-bounce text-xs" />
-          <span className="text-[10px] text-white/80">
-            SCROLL TO TRAVERSE CONTINUUM // [ 01 / 05 ]
+          <span className="text-white/80">
+            SCROLL TO TRAVERSE CONTINUUM
           </span>
         </div>
       </div>

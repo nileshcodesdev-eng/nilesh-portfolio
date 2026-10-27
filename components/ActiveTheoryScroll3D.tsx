@@ -842,6 +842,18 @@ export const ActiveTheoryScroll3D: React.FC<ActiveTheoryScroll3DProps> = ({
       targetTiltX = -mouseNormY * 0.25;
     };
 
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        mouseNormX = (touch.clientX / window.innerWidth) * 2 - 1;
+        mouseNormY = -(touch.clientY / window.innerHeight) * 2 + 1;
+        mouse.x = mouseNormX;
+        mouse.y = mouseNormY;
+        targetTiltY = mouseNormX * 0.3;
+        targetTiltX = -mouseNormY * 0.2;
+      }
+    };
+
     const handleClick = () => {
       if (hoveredSlab) {
         if (onProjectClick) {
@@ -853,13 +865,19 @@ export const ActiveTheoryScroll3D: React.FC<ActiveTheoryScroll3DProps> = ({
     };
 
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: true });
     window.addEventListener("click", handleClick);
 
-    // --- 11. Resize Handling ---
+    // --- 11. Resize Handling with Mobile Portrait FOV Adjustment ---
     const handleResize = () => {
       const w = window.innerWidth;
       const h = window.innerHeight;
       camera.aspect = w / h;
+      if (w < 768) {
+        camera.fov = 54;
+      } else {
+        camera.fov = 46;
+      }
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
     };
@@ -935,22 +953,27 @@ export const ActiveTheoryScroll3D: React.FC<ActiveTheoryScroll3DProps> = ({
       earthGroup.rotation.x = currentTiltX * 0.4;
       earthGroup.rotation.y += 0.0006 + currentTiltY * 0.002;
 
-      // Earth Positioning
-      const isMobile = window.innerWidth < 1200;
+      // Earth Positioning and Scaling (Mobile friendly)
+      const isMobile = window.innerWidth < 1024;
       if (isMobile) {
         earthGroup.position.x = 0;
-        earthGroup.position.y = 0.35;
+        earthGroup.position.y = 0.52;
+        const mobileScale = 0.72;
+        if (progress > 0.16) {
+          const fadeOut = Math.max(0, 1 - (progress - 0.16) * 4.2);
+          earthGroup.scale.set(mobileScale * fadeOut, mobileScale * fadeOut, mobileScale * fadeOut);
+        } else {
+          earthGroup.scale.set(mobileScale, mobileScale, mobileScale);
+        }
       } else {
         earthGroup.position.x = 1.35;
         earthGroup.position.y = 0;
-      }
-
-      // Earth scales and recedes as camera passes
-      if (progress > 0.16) {
-        const fadeOut = Math.max(0, 1 - (progress - 0.16) * 4.2);
-        earthGroup.scale.set(fadeOut, fadeOut, fadeOut);
-      } else {
-        earthGroup.scale.set(1, 1, 1);
+        if (progress > 0.16) {
+          const fadeOut = Math.max(0, 1 - (progress - 0.16) * 4.2);
+          earthGroup.scale.set(fadeOut, fadeOut, fadeOut);
+        } else {
+          earthGroup.scale.set(1, 1, 1);
+        }
       }
 
       // Meteors
@@ -1037,6 +1060,7 @@ export const ActiveTheoryScroll3D: React.FC<ActiveTheoryScroll3DProps> = ({
     return () => {
       cancelAnimationFrame(animId);
       window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("click", handleClick);
       window.removeEventListener("resize", handleResize);
 

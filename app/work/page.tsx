@@ -11,9 +11,9 @@ import { fadeIn } from "@/variants";
 
 const Work = () => {
   return (
-    <div className="h-full bg-primary/30 py-28 xl:py-36 flex items-center overflow-y-auto relative">
+    <div className="h-full bg-primary/30 pt-24 pb-28 sm:py-28 xl:py-36 flex items-start sm:items-center overflow-y-auto relative">
       <Circles />
-      <div className="container mx-auto pb-20 xl:pb-0">
+      <div className="container mx-auto px-4 sm:px-8 pb-24 xl:pb-0">
         <div className="flex flex-col xl:flex-row gap-x-8 items-start xl:items-center">
           {/* Left Column Text */}
           <div className="text-center flex xl:w-[32vw] flex-col lg:text-left mb-6 xl:mb-0">

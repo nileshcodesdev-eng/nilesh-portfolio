@@ -7,8 +7,8 @@ import { fadeIn } from "@/variants";
 
 const Testimonials = () => {
   return (
-    <div className="h-full bg-primary/30 py-28 xl:py-32 overflow-y-auto text-center flex items-center justify-center">
-      <div className="container mx-auto flex flex-col justify-center pb-20 xl:pb-0">
+    <div className="h-full bg-primary/30 pt-24 pb-28 sm:py-28 xl:py-32 overflow-y-auto text-center flex items-start sm:items-center justify-center">
+      <div className="container mx-auto px-4 sm:px-8 flex flex-col justify-center pb-24 xl:pb-0">
         <motion.div
           variants={fadeIn("up", 0.15)}
           initial="hidden"

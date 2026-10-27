@@ -9,30 +9,30 @@ const Header = () => {
       <div className="container mx-auto px-4 sm:px-8 py-3.5 sm:py-4">
         <div className="flex flex-row justify-between items-center gap-x-4">
           {/* Logo & Name - High Contrast & Razor Sharp */}
-          <Link prefetch href="/" className="group flex items-center gap-3.5">
+          <Link prefetch href="/" className="group flex items-center gap-2.5 sm:gap-3.5">
             {/* Glowing Monogram Icon */}
-            <div className="relative w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#f13024] via-[#7928ca] to-[#00f0ff] p-[1.5px] shadow-lg shadow-cyan-500/20 group-hover:shadow-cyan-400/40 group-hover:scale-105 transition-all duration-300 shrink-0">
-              <div className="w-full h-full rounded-[14px] bg-[#0c0e20] flex items-center justify-center font-extrabold text-sm text-white font-mono tracking-wider">
+            <div className="relative w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-gradient-to-tr from-[#f13024] via-[#7928ca] to-[#00f0ff] p-[1.5px] shadow-lg shadow-cyan-500/20 group-hover:shadow-cyan-400/40 group-hover:scale-105 transition-all duration-300 shrink-0">
+              <div className="w-full h-full rounded-[10px] sm:rounded-[14px] bg-[#0c0e20] flex items-center justify-center font-extrabold text-xs sm:text-sm text-white font-mono tracking-wider">
                 NC
               </div>
             </div>
 
             {/* Clearly Visible Name & Title */}
             <div className="flex flex-col text-left">
-              <div className="flex items-center gap-2">
-                <span className="text-lg sm:text-2xl font-black tracking-tight text-white drop-shadow-sm">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="text-base sm:text-2xl font-black tracking-tight text-white drop-shadow-sm leading-tight">
                   Nilesh{" "}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-cyan-400 font-extrabold">
                     Chaurasiya
                   </span>
                 </span>
-                <span className="relative flex h-2.5 w-2.5">
+                <span className="relative flex h-2 w-2 sm:h-2.5 sm:w-2.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-400"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 sm:h-2.5 sm:w-2.5 bg-cyan-400"></span>
                 </span>
               </div>
-              <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.18em] text-cyan-200/70 font-medium">
-                Full Stack Developer &bull; ERP &amp; Cloud
+              <span className="text-[9px] sm:text-[11px] font-mono uppercase tracking-wider sm:tracking-[0.18em] text-cyan-200/70 font-medium truncate max-w-[190px] sm:max-w-none">
+                Full Stack &bull; ERP &amp; Cloud
               </span>
             </div>
           </Link>

@@ -179,10 +179,10 @@ const About = () => {
   const [activeTab, setActiveTab] = useState<"skills" | "experience" | "education" | "certifications">("skills");
 
   return (
-    <div className="h-full bg-primary/30 py-28 xl:py-32 overflow-y-auto relative">
+    <div className="h-full bg-primary/30 pt-24 pb-28 sm:py-28 xl:py-32 overflow-y-auto relative">
       <Circles />
 
-      <div className="container mx-auto h-full flex flex-col xl:flex-row gap-8 xl:gap-12 items-start justify-center pb-24 xl:pb-8">
+      <div className="container mx-auto px-4 sm:px-8 h-full flex flex-col xl:flex-row gap-8 xl:gap-12 items-start justify-center pb-24 xl:pb-8">
         {/* Left Column: Bio & Key Metrics */}
         <div className="w-full xl:w-[42%] flex flex-col justify-center text-center xl:text-left">
           <motion.div
@@ -209,7 +209,7 @@ const About = () => {
             variants={fadeIn("right", 0.3)}
             initial="hidden"
             animate="show"
-            className="text-slate-300 text-sm sm:text-base leading-relaxed mb-6 px-2 xl:px-0 font-light"
+            className="text-slate-300 text-xs sm:text-base leading-relaxed mb-6 px-1 xl:px-0 font-light"
           >
             I am a Full Stack Engineer based in <span className="text-white font-medium">Nashik, India</span>, dedicated to
             transforming complex operational workflows into seamless, high-performance digital platforms.
@@ -223,63 +223,63 @@ const About = () => {
             variants={fadeIn("right", 0.4)}
             initial="hidden"
             animate="show"
-            className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6"
+            className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 mb-6"
           >
-            <div className="p-3.5 rounded-2xl bg-[#0c0e1a]/80 backdrop-blur-xl border border-white/10 hover:border-cyan-400/40 text-center transition-all duration-300">
-              <div className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-accent to-rose-400">
+            <div className="p-3 sm:p-3.5 rounded-2xl bg-[#0c0e1a]/80 backdrop-blur-xl border border-white/10 hover:border-cyan-400/40 text-center transition-all duration-300">
+              <div className="text-xl sm:text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-accent to-rose-400">
                 <CountUp start={0} end={2} duration={3} />+
               </div>
-              <div className="text-[10px] font-mono uppercase tracking-wider text-white/60">
+              <div className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-white/60">
                 Years Exp.
               </div>
             </div>
 
-            <div className="p-3.5 rounded-2xl bg-[#0c0e1a]/80 backdrop-blur-xl border border-white/10 hover:border-cyan-400/40 text-center transition-all duration-300">
-              <div className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
+            <div className="p-3 sm:p-3.5 rounded-2xl bg-[#0c0e1a]/80 backdrop-blur-xl border border-white/10 hover:border-cyan-400/40 text-center transition-all duration-300">
+              <div className="text-xl sm:text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
                 <CountUp start={0} end={40} duration={3} />%
               </div>
-              <div className="text-[10px] font-mono uppercase tracking-wider text-white/60">
+              <div className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-white/60">
                 Data Sync Saved
               </div>
             </div>
 
-            <div className="p-3.5 rounded-2xl bg-[#0c0e1a]/80 backdrop-blur-xl border border-white/10 hover:border-cyan-400/40 text-center transition-all duration-300">
-              <div className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+            <div className="p-3 sm:p-3.5 rounded-2xl bg-[#0c0e1a]/80 backdrop-blur-xl border border-white/10 hover:border-cyan-400/40 text-center transition-all duration-300">
+              <div className="text-xl sm:text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
                 <CountUp start={0} end={90} duration={3} />%
               </div>
-              <div className="text-[10px] font-mono uppercase tracking-wider text-white/60">
+              <div className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-white/60">
                 Auth Flags Cut
               </div>
             </div>
 
-            <div className="p-3.5 rounded-2xl bg-[#0c0e1a]/80 backdrop-blur-xl border border-white/10 hover:border-cyan-400/40 text-center transition-all duration-300">
-              <div className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">
+            <div className="p-3 sm:p-3.5 rounded-2xl bg-[#0c0e1a]/80 backdrop-blur-xl border border-white/10 hover:border-cyan-400/40 text-center transition-all duration-300">
+              <div className="text-xl sm:text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">
                 8.70
               </div>
-              <div className="text-[10px] font-mono uppercase tracking-wider text-white/60">
+              <div className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-white/60">
                 MCA CGPA
               </div>
             </div>
           </motion.div>
 
-          {/* Quick Contact Card with Frosted Glass */}
+          {/* Quick Contact Card with Frosted Glass (Visible on mobile & desktop) */}
           <motion.div
             variants={fadeIn("right", 0.5)}
             initial="hidden"
             animate="show"
-            className="hidden sm:flex flex-col gap-2 p-5 rounded-2xl bg-[#0c0e1a]/80 backdrop-blur-xl border border-white/10 hover:border-cyan-400/30 text-xs text-white/80 shadow-2xl transition-all duration-300"
+            className="flex flex-col gap-2 p-3.5 sm:p-5 rounded-2xl bg-[#0c0e1a]/80 backdrop-blur-xl border border-white/10 hover:border-cyan-400/30 text-xs text-white/80 shadow-2xl transition-all duration-300 mb-6 xl:mb-0"
           >
-            <div className="flex items-center justify-between font-mono text-[11px]">
+            <div className="flex items-center justify-between font-mono text-[10px] sm:text-[11px]">
               <span className="text-white/40">// LOCATION:</span>
-              <span className="font-medium text-white">Nashik, Maharashtra, India</span>
+              <span className="font-medium text-white">Nashik, India</span>
             </div>
-            <div className="flex items-center justify-between font-mono text-[11px]">
+            <div className="flex items-center justify-between font-mono text-[10px] sm:text-[11px]">
               <span className="text-white/40">// EMAIL:</span>
-              <a href="mailto:nilesh.codes.dev@gmail.com" className="hover:text-cyan-400 underline transition-colors">
+              <a href="mailto:nilesh.codes.dev@gmail.com" className="hover:text-cyan-400 underline transition-colors truncate max-w-[190px] sm:max-w-none">
                 nilesh.codes.dev@gmail.com
               </a>
             </div>
-            <div className="flex items-center justify-between font-mono text-[11px]">
+            <div className="flex items-center justify-between font-mono text-[10px] sm:text-[11px]">
               <span className="text-white/40">// PHONE:</span>
               <a href="tel:+918766573044" className="hover:text-cyan-400 font-medium transition-colors">
                 +91 8766573044
@@ -297,7 +297,7 @@ const About = () => {
           className="w-full xl:w-[58%] flex flex-col"
         >
           {/* Tabs Navigation with Liquid Glass Aesthetic */}
-          <div className="flex flex-wrap gap-2 sm:gap-3 mb-6 border-b border-white/10 pb-3 justify-center xl:justify-start">
+          <div className="flex flex-wrap sm:flex-nowrap overflow-x-auto no-scrollbar gap-1.5 sm:gap-3 mb-6 border-b border-white/10 pb-3 justify-center xl:justify-start">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -305,12 +305,12 @@ const About = () => {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as typeof activeTab)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-mono tracking-wider transition-all duration-300 ${isActive
+                  className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-sm font-mono tracking-wider transition-all duration-300 ${isActive
                     ? "water-shimmer-btn text-white shadow-lg shadow-cyan-500/20"
                     : "bg-white/[0.04] hover:bg-white/[0.08] text-white/70 hover:text-white border border-white/10 backdrop-blur-md"
                     }`}
                 >
-                  <Icon className="text-sm" />
+                  <Icon className="text-xs sm:text-sm" />
                   <span>[ {tab.label} ]</span>
                 </button>
               );

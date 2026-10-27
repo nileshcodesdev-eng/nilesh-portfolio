@@ -38,7 +38,7 @@ export const socialData: { name: string; link: string; Icon: IconType; color?: s
 
 const Socials = () => {
   return (
-    <div className="flex items-center gap-x-4 sm:gap-x-5 text-lg">
+    <div className="flex items-center gap-x-1.5 sm:gap-x-3 text-lg">
       {socialData.map((social, i) => (
         <Link
           key={i}
@@ -46,9 +46,9 @@ const Socials = () => {
           href={social.link}
           target="_blank"
           rel="noreferrer noopener"
-          className="relative p-2 rounded-full bg-white/5 border border-white/10 hover:border-accent hover:bg-accent/20 hover:text-accent transition-all duration-300 hover:scale-110 flex items-center justify-center text-white/80"
+          className="relative p-1.5 sm:p-2 rounded-full bg-white/5 border border-white/10 hover:border-accent hover:bg-accent/20 hover:text-accent transition-all duration-300 hover:scale-105 flex items-center justify-center text-white/80"
         >
-          <social.Icon aria-hidden className="text-xl" />
+          <social.Icon aria-hidden className="text-base sm:text-xl" />
           <span className="sr-only">{social.name}</span>
         </Link>
       ))}

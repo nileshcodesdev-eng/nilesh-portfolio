@@ -34,8 +34,8 @@ const Nav = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="flex flex-col items-center xl:justify-center gap-y-4 fixed h-max bottom-0 mt-auto xl:right-[2%] z-50 top-0 w-full xl:w-16 xl:max-w-md xl:h-screen pointer-events-none">
-      <div className="flex w-full xl:flex-col items-center justify-between xl:justify-center gap-y-8 px-6 md:px-36 xl:px-0 h-18 xl:h-max py-6 bg-black/50 backdrop-blur-2xl border-t xl:border border-white/15 text-2xl xl:text-lg xl:rounded-full shadow-2xl shadow-black/80 pointer-events-auto">
+    <nav className="fixed bottom-3 sm:bottom-4 left-3 right-3 sm:left-1/2 sm:-translate-x-1/2 xl:translate-x-0 xl:left-auto xl:right-[2%] xl:bottom-0 xl:top-0 z-50 w-auto xl:w-16 xl:h-screen flex items-center justify-center pointer-events-none">
+      <div className="flex w-full max-w-sm sm:max-w-md xl:max-w-none xl:flex-col items-center justify-between sm:justify-center gap-x-1 sm:gap-x-4 xl:gap-y-7 px-3 sm:px-6 xl:px-0 py-2 sm:py-2.5 xl:py-6 bg-[#080a18]/85 backdrop-blur-2xl border border-white/15 rounded-2xl xl:rounded-full shadow-2xl shadow-black/90 pointer-events-auto">
         {navData.map((link, i) => {
           const isActive = link.path === pathname;
           return (
@@ -43,7 +43,7 @@ const Nav = () => {
               prefetch
               className={`${
                 isActive ? "text-cyan-400" : "text-white/60"
-              } relative flex items-center justify-center group hover:text-cyan-300 transition-all duration-300 p-2.5 rounded-full`}
+              } relative flex flex-col items-center justify-center group hover:text-cyan-300 transition-all duration-300 p-2 sm:p-2.5 rounded-full`}
               href={link.path}
               key={i}
             >
@@ -56,7 +56,7 @@ const Nav = () => {
                 />
               )}
 
-              {/* Active Theory Sleek HUD Tooltip */}
+              {/* Active Theory Sleek HUD Tooltip (Desktop) */}
               <div
                 role="tooltip"
                 className="absolute pr-14 right-0 hidden xl:group-hover:flex"
@@ -73,9 +73,14 @@ const Nav = () => {
                 </div>
               </div>
 
-              <div className="relative z-10">
-                <link.Icon aria-hidden className="transition-transform group-hover:scale-115" />
+              <div className="relative z-10 text-xl sm:text-2xl xl:text-lg">
+                <link.Icon aria-hidden className="transition-transform group-hover:scale-110" />
               </div>
+
+              {/* Subtle active indicator dot on mobile */}
+              {isActive && (
+                <span className="xl:hidden w-1 h-1 rounded-full bg-cyan-400 mt-0.5" />
+              )}
             </Link>
           );
         })}

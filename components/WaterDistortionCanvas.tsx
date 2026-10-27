@@ -102,8 +102,45 @@ export const WaterDistortionCanvas: React.FC = () => {
       setTimeout(() => addRipple(e.clientX, e.clientY, true), 90);
     };
 
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        addRipple(touch.clientX, touch.clientY, true);
+        setTimeout(() => addRipple(touch.clientX, touch.clientY, true), 90);
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        const now = performance.now();
+        const dx = touch.clientX - mouse.prevX;
+        const dy = touch.clientY - mouse.prevY;
+        mouse.speed = Math.hypot(dx, dy);
+        mouse.prevX = mouse.x;
+        mouse.prevY = mouse.y;
+        mouse.x = touch.clientX;
+        mouse.y = touch.clientY;
+
+        trail.push({
+          x: touch.clientX,
+          y: touch.clientY,
+          alpha: Math.min(0.35, 0.1 + mouse.speed * 0.01),
+          size: Math.min(50, 20 + mouse.speed * 0.6),
+        });
+        if (trail.length > 16) trail.shift();
+
+        if (now - moveThrottle > 90 && mouse.speed > 6) {
+          moveThrottle = now;
+          addRipple(touch.clientX, touch.clientY, false);
+        }
+      }
+    };
+
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
     window.addEventListener("click", handleClick, { passive: true });
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: true });
 
     // --- Render Loop with Fluid Damping & Caustic Waves ---
     const render = (time: number) => {
@@ -171,6 +208,8 @@ export const WaterDistortionCanvas: React.FC = () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("click", handleClick);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
     };
   }, []);
 

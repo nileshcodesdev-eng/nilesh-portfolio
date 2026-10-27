@@ -301,8 +301,8 @@ const Contact = () => {
   };
 
   return (
-    <div className="h-full bg-primary/30 overflow-y-auto py-28 xl:py-32">
-      <div className="container mx-auto px-4 pb-20 xl:pb-0">
+    <div className="h-full bg-primary/30 overflow-y-auto pt-24 pb-28 sm:py-28 xl:py-32">
+      <div className="container mx-auto px-4 sm:px-8 pb-24 xl:pb-0">
         <div className="text-center max-w-xl mx-auto mb-10">
           <motion.div
             variants={fadeIn("up", 0.15)}
