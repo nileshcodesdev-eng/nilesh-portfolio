@@ -211,10 +211,10 @@ const About = () => {
             animate="show"
             className="text-slate-300 text-sm sm:text-base leading-relaxed mb-6 px-2 xl:px-0 font-light"
           >
-            I am a Full Stack Engineer based in <span className="text-white font-medium">Nashik, India</span>, dedicated to 
-            transforming complex operational workflows into seamless, high-performance digital platforms. 
-            My expertise centers on architecting multi-tenant ERP solutions with <span className="text-white">.NET and Node.js</span>, 
-            building reactive user interfaces with <span className="text-white">React and Angular</span>, and engineering 
+            I am a Full Stack Engineer based in <span className="text-white font-medium">Nashik, India</span>, dedicated to
+            transforming complex operational workflows into seamless, high-performance digital platforms.
+            My expertise centers on architecting multi-tenant ERP solutions with <span className="text-white">.NET and Node.js</span>,
+            building reactive user interfaces with <span className="text-white">React and Angular</span>, and engineering
             bulletproof database architectures in <span className="text-white">MS SQL Server and MySQL</span>.
           </motion.p>
 
@@ -305,11 +305,10 @@ const About = () => {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as typeof activeTab)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-mono tracking-wider transition-all duration-300 ${
-                    isActive
-                      ? "water-shimmer-btn text-white shadow-lg shadow-cyan-500/20"
-                      : "bg-white/[0.04] hover:bg-white/[0.08] text-white/70 hover:text-white border border-white/10 backdrop-blur-md"
-                  }`}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-mono tracking-wider transition-all duration-300 ${isActive
+                    ? "water-shimmer-btn text-white shadow-lg shadow-cyan-500/20"
+                    : "bg-white/[0.04] hover:bg-white/[0.08] text-white/70 hover:text-white border border-white/10 backdrop-blur-md"
+                    }`}
                 >
                   <Icon className="text-sm" />
                   <span>[ {tab.label} ]</span>

@@ -116,43 +116,118 @@ export const Earth3D: React.FC<Earth3DProps> = ({ className = "" }) => {
     scene.add(earthGroup);
 
     // Surface Material with photographic detail, bump relief & ocean specularity
-    const earthGeometry = new THREE.SphereGeometry(earthRadius, 96, 96);
+    const earthGeometry = new THREE.SphereGeometry(earthRadius, 128, 128);
     const earthMaterial = new THREE.MeshStandardMaterial({
       map: dayTexture,
       normalMap: normalTexture,
-      normalScale: new THREE.Vector2(0.85, 0.85),
+      normalScale: new THREE.Vector2(1.5, 1.5),
       roughnessMap: specularTexture,
-      roughness: 0.4,
-      metalness: 0.08,
+      roughness: 0.28,
+      metalness: 0.06,
     });
     const earthMesh = new THREE.Mesh(earthGeometry, earthMaterial);
     earthGroup.add(earthMesh);
 
-    // Night Lights Layer (Glows on night side)
-    const nightMaterial = new THREE.MeshBasicMaterial({
-      map: nightTexture,
+    // Physically-Accurate Night City Lights Twilight Terminator Shader
+    const sunPos = new THREE.Vector3(5, 2.5, 3.5);
+    const nightMaterial = new THREE.ShaderMaterial({
+      uniforms: {
+        uNightTexture: { value: nightTexture },
+        uSunPosition: { value: sunPos },
+      },
+      vertexShader: `
+        varying vec2 vUv;
+        varying vec3 vNormal;
+        varying vec3 vSunDir;
+        uniform vec3 uSunPosition;
+        void main() {
+          vUv = uv;
+          vNormal = normalize(normalMatrix * normal);
+          vSunDir = normalize((viewMatrix * vec4(uSunPosition, 1.0)).xyz);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform sampler2D uNightTexture;
+        varying vec2 vUv;
+        varying vec3 vNormal;
+        varying vec3 vSunDir;
+        void main() {
+          vec3 norm = normalize(vNormal);
+          float sunDot = dot(norm, vSunDir);
+          float nightFactor = smoothstep(0.12, -0.18, sunDot);
+
+          vec4 nightTex = texture2D(uNightTexture, vUv);
+          vec3 cityGlow = nightTex.rgb * vec3(1.3, 1.12, 0.85) * 1.9;
+          gl_FragColor = vec4(cityGlow, nightTex.a * nightFactor * 0.95);
+        }
+      `,
       blending: THREE.AdditiveBlending,
       transparent: true,
-      opacity: 0.85,
+      depthWrite: false,
     });
     const nightMesh = new THREE.Mesh(earthGeometry, nightMaterial);
     earthGroup.add(nightMesh);
 
-    // Volumetric Cloud Layer (Floating above surface at r = 1.24)
-    const cloudsGeometry = new THREE.SphereGeometry(earthRadius * 1.015, 64, 64);
-    const cloudsMaterial = new THREE.MeshStandardMaterial({
-      map: cloudsTexture,
+    // Volumetric Cloud Layer with Sunlit Shading
+    const cloudsGeometry = new THREE.SphereGeometry(earthRadius * 1.015, 96, 96);
+    const cloudsMaterial = new THREE.ShaderMaterial({
+      uniforms: {
+        uCloudsTexture: { value: cloudsTexture },
+        uSunPosition: { value: sunPos },
+      },
+      vertexShader: `
+        varying vec2 vUv;
+        varying vec3 vNormal;
+        varying vec3 vSunDir;
+        uniform vec3 uSunPosition;
+        void main() {
+          vUv = uv;
+          vNormal = normalize(normalMatrix * normal);
+          vSunDir = normalize((viewMatrix * vec4(uSunPosition, 1.0)).xyz);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform sampler2D uCloudsTexture;
+        varying vec2 vUv;
+        varying vec3 vNormal;
+        varying vec3 vSunDir;
+        void main() {
+          vec3 norm = normalize(vNormal);
+          float sunDot = dot(norm, vSunDir);
+          float light = clamp(sunDot * 0.9 + 0.28, 0.08, 1.0);
+
+          vec4 cloudTex = texture2D(uCloudsTexture, vUv);
+          vec3 cloudColor = vec3(1.0, 1.0, 1.0) * light;
+          gl_FragColor = vec4(cloudColor, cloudTex.r * 0.82);
+        }
+      `,
       transparent: true,
-      opacity: 0.72,
       blending: THREE.NormalBlending,
       depthWrite: false,
     });
     const cloudsMesh = new THREE.Mesh(cloudsGeometry, cloudsMaterial);
     earthGroup.add(cloudsMesh);
 
-    // Atmospheric Rayleigh Scattering Glow Halo
-    const atmosGeometry = new THREE.SphereGeometry(earthRadius * 1.15, 64, 64);
-    const atmosMaterial = new THREE.ShaderMaterial({
+    // Cloud Shadow Layer
+    const cloudShadowGeom = new THREE.SphereGeometry(earthRadius * 1.003, 64, 64);
+    const cloudShadowMat = new THREE.MeshBasicMaterial({
+      map: cloudsTexture,
+      color: 0x010814,
+      transparent: true,
+      opacity: 0.28,
+      blending: THREE.MultiplyBlending,
+      depthWrite: false,
+    });
+    const cloudShadowMesh = new THREE.Mesh(cloudShadowGeom, cloudShadowMat);
+    cloudShadowMesh.rotation.y = 0.015;
+    earthGroup.add(cloudShadowMesh);
+
+    // Dual-Layer Atmospheric Rayleigh Scattering Glow
+    // Inner Horizon Rim Atmosphere (Crisp Electric Blue Edge)
+    const innerRimGeom = new THREE.SphereGeometry(earthRadius * 1.008, 64, 64);
+    const innerRimMat = new THREE.ShaderMaterial({
       vertexShader: `
         varying vec3 vNormal;
         varying vec3 vPosition;
@@ -167,11 +242,42 @@ export const Earth3D: React.FC<Earth3DProps> = ({ className = "" }) => {
         varying vec3 vPosition;
         void main() {
           vec3 viewDir = normalize(-vPosition);
-          float fresnel = dot(viewDir, vNormal);
-          fresnel = clamp(1.0 - fresnel, 0.0, 1.0);
-          float intensity = pow(fresnel, 2.7);
-          vec3 atmosphereColor = vec3(0.0, 0.82, 1.0); // Vibrant Azure Cyan
-          gl_FragColor = vec4(atmosphereColor, intensity * 0.85);
+          float rim = pow(1.0 - max(dot(viewDir, vNormal), 0.0), 4.2);
+          gl_FragColor = vec4(vec3(0.08, 0.78, 1.0), rim * 0.7);
+        }
+      `,
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    const innerRimMesh = new THREE.Mesh(innerRimGeom, innerRimMat);
+    earthGroup.add(innerRimMesh);
+
+    // Outer Atmospheric Corona
+    const atmosGeometry = new THREE.SphereGeometry(earthRadius * 1.15, 64, 64);
+    const atmosMaterial = new THREE.ShaderMaterial({
+      uniforms: {
+        uSunDir: { value: sunPos.clone().normalize() },
+      },
+      vertexShader: `
+        varying vec3 vNormal;
+        varying vec3 vPosition;
+        void main() {
+          vNormal = normalize(normalMatrix * normal);
+          vPosition = (modelViewMatrix * vec4(position, 1.0)).xyz;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        varying vec3 vNormal;
+        varying vec3 vPosition;
+        uniform vec3 uSunDir;
+        void main() {
+          vec3 viewDir = normalize(-vPosition);
+          float fresnel = pow(1.0 - max(dot(viewDir, vNormal), 0.0), 3.0);
+          float sunDot = max(dot(vNormal, uSunDir), -0.2) + 0.2;
+          vec3 atmosphereColor = mix(vec3(0.02, 0.45, 0.98), vec3(0.0, 0.88, 1.0), fresnel);
+          gl_FragColor = vec4(atmosphereColor, fresnel * sunDot * 0.95);
         }
       `,
       blending: THREE.AdditiveBlending,
@@ -180,7 +286,7 @@ export const Earth3D: React.FC<Earth3DProps> = ({ className = "" }) => {
       depthWrite: false,
     });
     const atmosMesh = new THREE.Mesh(atmosGeometry, atmosMaterial);
-    scene.add(atmosMesh);
+    earthGroup.add(atmosMesh);
 
     // --- 5. Deep Space Stars & Cosmic Dust Nebula ---
     const starCount = 1400;
