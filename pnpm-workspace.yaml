@@ -1,3 +1,5 @@
+packages:
+  - '.'
 allowBuilds:
   '@tsparticles/engine': false
   react-tsparticles: false
