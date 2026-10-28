@@ -96,8 +96,8 @@ export const ActiveTheoryScroll3D: React.FC<ActiveTheoryScroll3DProps> = ({
     frontFill.position.set(-4.0, 1.5, 5.0);
     scene.add(frontFill);
 
-    // Subtle atmospheric rim back-glow
-    const rimLight = new THREE.DirectionalLight(0x38bdf8, 2.2);
+    // Subtle space rim backlight
+    const rimLight = new THREE.DirectionalLight(0xffffff, 0.4);
     rimLight.position.set(-6, -2, -3);
     scene.add(rimLight);
 
@@ -176,22 +176,18 @@ export const ActiveTheoryScroll3D: React.FC<ActiveTheoryScroll3DProps> = ({
     specularTexture.colorSpace = THREE.NoColorSpace;
     specularTexture.anisotropy = maxAnisotropy;
 
-    const cloudsTexture = textureLoader.load("/textures/earth/earth_clouds_1024.png");
-    cloudsTexture.colorSpace = THREE.SRGBColorSpace;
-    cloudsTexture.anisotropy = maxAnisotropy;
-
     const nightTexture = textureLoader.load("/textures/earth/earth_lights_2048.png");
     nightTexture.colorSpace = THREE.SRGBColorSpace;
     nightTexture.anisotropy = maxAnisotropy;
 
-    // A. Earth Base Surface (Crystal Clear Brilliant Daylight, Fog-Free)
+    // A. Earth Base Surface (Crystal Clear Brilliant Daylight, High Contrast & Fog-Free)
     const earthGeometry = new THREE.SphereGeometry(earthRadius, 128, 128);
     const earthMaterial = new THREE.MeshStandardMaterial({
       map: dayTexture,
       normalMap: normalTexture,
-      normalScale: new THREE.Vector2(1.8, 1.8), // Enhanced mountain topography relief
+      normalScale: new THREE.Vector2(1.6, 1.6), // Crisp mountain topography & continental shelf relief
       roughnessMap: specularTexture,
-      roughness: 0.32,
+      roughness: 0.35, // Natural specular gleam on oceans, rich matte landmasses
       metalness: 0.04,
       fog: false, // CRITICAL: Exclude from fog so Earth is razor sharp
     });
@@ -240,132 +236,7 @@ export const ActiveTheoryScroll3D: React.FC<ActiveTheoryScroll3DProps> = ({
     const nightMesh = new THREE.Mesh(earthGeometry, nightShaderMat);
     earthGroup.add(nightMesh);
 
-    // C. Volumetric Dual-Layer Cloud System (Brilliant Sunlit White Clouds)
-    const cloudsGeometry = new THREE.SphereGeometry(earthRadius * 1.015, 96, 96);
-    const cloudsShaderMat = new THREE.ShaderMaterial({
-      uniforms: {
-        uCloudsTexture: { value: cloudsTexture },
-        uSunPosition: { value: sunPosition },
-      },
-      vertexShader: `
-        varying vec2 vUv;
-        varying vec3 vNormal;
-        varying vec3 vSunDir;
-        uniform vec3 uSunPosition;
-        void main() {
-          vUv = uv;
-          vNormal = normalize(normalMatrix * normal);
-          vSunDir = normalize((viewMatrix * vec4(uSunPosition, 1.0)).xyz);
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        uniform sampler2D uCloudsTexture;
-        varying vec2 vUv;
-        varying vec3 vNormal;
-        varying vec3 vSunDir;
-        void main() {
-          vec3 norm = normalize(vNormal);
-          float sunDot = dot(norm, vSunDir);
-          float light = clamp(sunDot * 0.75 + 0.5, 0.35, 1.0);
-
-          vec4 cloudTex = texture2D(uCloudsTexture, vUv);
-          // Brilliant radiant white clouds across the sunlit daytime hemisphere
-          vec3 cloudColor = vec3(1.0, 1.0, 1.0) * light;
-          gl_FragColor = vec4(cloudColor, cloudTex.r * 0.76);
-        }
-      `,
-      transparent: true,
-      blending: THREE.NormalBlending,
-      depthWrite: false,
-      fog: false,
-    });
-    const cloudsMesh = new THREE.Mesh(cloudsGeometry, cloudsShaderMat);
-    earthGroup.add(cloudsMesh);
-
-    // D. Cloud Shadow Layer (Casting soft shadows onto Earth terrain below)
-    const cloudShadowGeom = new THREE.SphereGeometry(earthRadius * 1.003, 64, 64);
-    const cloudShadowMat = new THREE.MeshBasicMaterial({
-      map: cloudsTexture,
-      color: 0x010814,
-      transparent: true,
-      opacity: 0.28,
-      blending: THREE.MultiplyBlending,
-      depthWrite: false,
-      fog: false,
-    });
-    const cloudShadowMesh = new THREE.Mesh(cloudShadowGeom, cloudShadowMat);
-    // Slight offset opposite sun direction
-    cloudShadowMesh.rotation.y = 0.015;
-    earthGroup.add(cloudShadowMesh);
-
-    // E. Dual Atmospheric Rayleigh Scattering Glow
-    // E1. Inner Horizon Rim Atmosphere (Crisp Blue Edge along Silhouette)
-    const innerRimGeom = new THREE.SphereGeometry(earthRadius * 1.008, 64, 64);
-    const innerRimMat = new THREE.ShaderMaterial({
-      vertexShader: `
-        varying vec3 vNormal;
-        varying vec3 vPosition;
-        void main() {
-          vNormal = normalize(normalMatrix * normal);
-          vPosition = (modelViewMatrix * vec4(position, 1.0)).xyz;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        varying vec3 vNormal;
-        varying vec3 vPosition;
-        void main() {
-          vec3 viewDir = normalize(-vPosition);
-          float rim = pow(1.0 - max(dot(viewDir, vNormal), 0.0), 3.4);
-          gl_FragColor = vec4(vec3(0.15, 0.72, 1.0), rim * 0.85);
-        }
-      `,
-      transparent: true,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-      fog: false,
-    });
-    const innerRimMesh = new THREE.Mesh(innerRimGeom, innerRimMat);
-    earthGroup.add(innerRimMesh);
-
-    // E2. Outer Atmospheric Corona
-    const atmosGeometry = new THREE.SphereGeometry(earthRadius * 1.16, 64, 64);
-    const atmosMaterial = new THREE.ShaderMaterial({
-      uniforms: {
-        uSunDir: { value: sunPosition.clone().normalize() },
-      },
-      vertexShader: `
-        varying vec3 vNormal;
-        varying vec3 vPosition;
-        void main() {
-          vNormal = normalize(normalMatrix * normal);
-          vPosition = (modelViewMatrix * vec4(position, 1.0)).xyz;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        varying vec3 vNormal;
-        varying vec3 vPosition;
-        uniform vec3 uSunDir;
-        void main() {
-          vec3 viewDir = normalize(-vPosition);
-          float fresnel = pow(1.0 - max(dot(viewDir, vNormal), 0.0), 2.8);
-          float sunDot = max(dot(vNormal, uSunDir), 0.0) * 0.6 + 0.4;
-          vec3 atmosColor = mix(vec3(0.08, 0.62, 1.0), vec3(0.35, 0.85, 1.0), fresnel);
-          gl_FragColor = vec4(atmosColor, fresnel * sunDot * 0.85);
-        }
-      `,
-      blending: THREE.AdditiveBlending,
-      side: THREE.BackSide,
-      transparent: true,
-      depthWrite: false,
-      fog: false,
-    });
-    const atmosMesh = new THREE.Mesh(atmosGeometry, atmosMaterial);
-    earthGroup.add(atmosMesh);
-
-    // F. Active Theory Global Tech Hubs & Cybernetic Beacons
+    // C. Active Theory Global Tech Hubs & Cybernetic Beacons
     const TECH_HUBS = [
       { name: "NASHIK HQ", lat: 19.9975, lon: 73.7898, isHQ: true },
       { name: "SILICON VALLEY", lat: 37.7749, lon: -122.4194, isHQ: false },
@@ -943,8 +814,6 @@ export const ActiveTheoryScroll3D: React.FC<ActiveTheoryScroll3DProps> = ({
       // Stage 1: Earth Animation & Responsive Layout
       earthMesh.rotation.y += 0.0016;
       nightMesh.rotation.y += 0.0016;
-      cloudsMesh.rotation.y += 0.0022; // Clouds drift naturally faster
-      cloudShadowMesh.rotation.y += 0.0022;
       scannerRing.rotation.z += 0.004;
       satGroup.rotation.y -= 0.006;
 
@@ -1082,20 +951,11 @@ export const ActiveTheoryScroll3D: React.FC<ActiveTheoryScroll3DProps> = ({
       earthGeometry.dispose();
       earthMaterial.dispose();
       nightShaderMat.dispose();
-      cloudsGeometry.dispose();
-      cloudsShaderMat.dispose();
-      cloudShadowGeom.dispose();
-      cloudShadowMat.dispose();
-      innerRimGeom.dispose();
-      innerRimMat.dispose();
-      atmosGeometry.dispose();
-      atmosMaterial.dispose();
       scannerRingGeom.dispose();
       scannerRingMat.dispose();
       dayTexture.dispose();
       normalTexture.dispose();
       specularTexture.dispose();
-      cloudsTexture.dispose();
       nightTexture.dispose();
       starGeom.dispose();
       starMat.dispose();

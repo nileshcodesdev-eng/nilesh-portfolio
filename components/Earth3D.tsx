@@ -84,10 +84,6 @@ export const Earth3D: React.FC<Earth3DProps> = ({ className = "" }) => {
     const specularTexture = textureLoader.load("/textures/earth/earth_specular_2048.jpg");
     specularTexture.anisotropy = maxAnisotropy;
 
-    const cloudsTexture = textureLoader.load("/textures/earth/earth_clouds_1024.png");
-    cloudsTexture.colorSpace = THREE.SRGBColorSpace;
-    cloudsTexture.anisotropy = maxAnisotropy;
-
     const nightTexture = textureLoader.load("/textures/earth/earth_lights_2048.png");
     nightTexture.colorSpace = THREE.SRGBColorSpace;
     nightTexture.anisotropy = maxAnisotropy;
@@ -107,8 +103,8 @@ export const Earth3D: React.FC<Earth3DProps> = ({ className = "" }) => {
     frontFill.position.set(-3.5, 1.2, 4.5);
     scene.add(frontFill);
 
-    // Electric cyan backlight for atmospheric rim glow
-    const rimBacklight = new THREE.DirectionalLight(0x38bdf8, 2.2);
+    // Subtle space rim backlight
+    const rimBacklight = new THREE.DirectionalLight(0xffffff, 0.4);
     rimBacklight.position.set(-4, -1, -3);
     scene.add(rimBacklight);
 
@@ -125,10 +121,10 @@ export const Earth3D: React.FC<Earth3DProps> = ({ className = "" }) => {
     const earthMaterial = new THREE.MeshStandardMaterial({
       map: dayTexture,
       normalMap: normalTexture,
-      normalScale: new THREE.Vector2(1.5, 1.5),
+      normalScale: new THREE.Vector2(1.6, 1.6),
       roughnessMap: specularTexture,
-      roughness: 0.28,
-      metalness: 0.06,
+      roughness: 0.35,
+      metalness: 0.04,
     });
     const earthMesh = new THREE.Mesh(earthGeometry, earthMaterial);
     earthGroup.add(earthMesh);
@@ -173,125 +169,6 @@ export const Earth3D: React.FC<Earth3DProps> = ({ className = "" }) => {
     });
     const nightMesh = new THREE.Mesh(earthGeometry, nightMaterial);
     earthGroup.add(nightMesh);
-
-    // Volumetric Cloud Layer with Sunlit Shading
-    const cloudsGeometry = new THREE.SphereGeometry(earthRadius * 1.015, 96, 96);
-    const cloudsMaterial = new THREE.ShaderMaterial({
-      uniforms: {
-        uCloudsTexture: { value: cloudsTexture },
-        uSunPosition: { value: sunPos },
-      },
-      vertexShader: `
-        varying vec2 vUv;
-        varying vec3 vNormal;
-        varying vec3 vSunDir;
-        uniform vec3 uSunPosition;
-        void main() {
-          vUv = uv;
-          vNormal = normalize(normalMatrix * normal);
-          vSunDir = normalize((viewMatrix * vec4(uSunPosition, 1.0)).xyz);
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        uniform sampler2D uCloudsTexture;
-        varying vec2 vUv;
-        varying vec3 vNormal;
-        varying vec3 vSunDir;
-        void main() {
-          vec3 norm = normalize(vNormal);
-          float sunDot = dot(norm, vSunDir);
-          float light = clamp(sunDot * 0.9 + 0.28, 0.08, 1.0);
-
-          vec4 cloudTex = texture2D(uCloudsTexture, vUv);
-          vec3 cloudColor = vec3(1.0, 1.0, 1.0) * light;
-          gl_FragColor = vec4(cloudColor, cloudTex.r * 0.82);
-        }
-      `,
-      transparent: true,
-      blending: THREE.NormalBlending,
-      depthWrite: false,
-    });
-    const cloudsMesh = new THREE.Mesh(cloudsGeometry, cloudsMaterial);
-    earthGroup.add(cloudsMesh);
-
-    // Cloud Shadow Layer
-    const cloudShadowGeom = new THREE.SphereGeometry(earthRadius * 1.003, 64, 64);
-    const cloudShadowMat = new THREE.MeshBasicMaterial({
-      map: cloudsTexture,
-      color: 0x010814,
-      transparent: true,
-      opacity: 0.28,
-      blending: THREE.MultiplyBlending,
-      depthWrite: false,
-    });
-    const cloudShadowMesh = new THREE.Mesh(cloudShadowGeom, cloudShadowMat);
-    cloudShadowMesh.rotation.y = 0.015;
-    earthGroup.add(cloudShadowMesh);
-
-    // Dual-Layer Atmospheric Rayleigh Scattering Glow
-    // Inner Horizon Rim Atmosphere (Crisp Electric Blue Edge)
-    const innerRimGeom = new THREE.SphereGeometry(earthRadius * 1.008, 64, 64);
-    const innerRimMat = new THREE.ShaderMaterial({
-      vertexShader: `
-        varying vec3 vNormal;
-        varying vec3 vPosition;
-        void main() {
-          vNormal = normalize(normalMatrix * normal);
-          vPosition = (modelViewMatrix * vec4(position, 1.0)).xyz;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        varying vec3 vNormal;
-        varying vec3 vPosition;
-        void main() {
-          vec3 viewDir = normalize(-vPosition);
-          float rim = pow(1.0 - max(dot(viewDir, vNormal), 0.0), 4.2);
-          gl_FragColor = vec4(vec3(0.08, 0.78, 1.0), rim * 0.7);
-        }
-      `,
-      transparent: true,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-    });
-    const innerRimMesh = new THREE.Mesh(innerRimGeom, innerRimMat);
-    earthGroup.add(innerRimMesh);
-
-    // Outer Atmospheric Corona
-    const atmosGeometry = new THREE.SphereGeometry(earthRadius * 1.15, 64, 64);
-    const atmosMaterial = new THREE.ShaderMaterial({
-      uniforms: {
-        uSunDir: { value: sunPos.clone().normalize() },
-      },
-      vertexShader: `
-        varying vec3 vNormal;
-        varying vec3 vPosition;
-        void main() {
-          vNormal = normalize(normalMatrix * normal);
-          vPosition = (modelViewMatrix * vec4(position, 1.0)).xyz;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        varying vec3 vNormal;
-        varying vec3 vPosition;
-        uniform vec3 uSunDir;
-        void main() {
-          vec3 viewDir = normalize(-vPosition);
-          float fresnel = pow(1.0 - max(dot(viewDir, vNormal), 0.0), 3.0);
-          float sunDot = max(dot(vNormal, uSunDir), -0.2) + 0.2;
-          vec3 atmosphereColor = mix(vec3(0.02, 0.45, 0.98), vec3(0.0, 0.88, 1.0), fresnel);
-          gl_FragColor = vec4(atmosphereColor, fresnel * sunDot * 0.95);
-        }
-      `,
-      blending: THREE.AdditiveBlending,
-      side: THREE.BackSide,
-      transparent: true,
-      depthWrite: false,
-    });
-    const atmosMesh = new THREE.Mesh(atmosGeometry, atmosMaterial);
-    earthGroup.add(atmosMesh);
 
     // --- 5. Deep Space Stars & Cosmic Dust Nebula ---
     const starCount = 1400;
@@ -563,9 +440,6 @@ export const Earth3D: React.FC<Earth3DProps> = ({ className = "" }) => {
         scene.rotation.y = currentTiltY;
       }
 
-      // Clouds rotate slightly faster for dynamic atmospheric motion
-      cloudsMesh.rotation.y += 0.0005;
-
       // Animate Geospatial Arcs data pulses
       arcData.forEach((arc) => {
         arc.progress = (arc.progress + arc.speed) % 1;
@@ -626,16 +500,11 @@ export const Earth3D: React.FC<Earth3DProps> = ({ className = "" }) => {
       earthGeometry.dispose();
       earthMaterial.dispose();
       nightMaterial.dispose();
-      cloudsGeometry.dispose();
-      cloudsMaterial.dispose();
-      atmosGeometry.dispose();
-      atmosMaterial.dispose();
       starGeometry.dispose();
       starMaterial.dispose();
       dayTexture.dispose();
       normalTexture.dispose();
       specularTexture.dispose();
-      cloudsTexture.dispose();
       nightTexture.dispose();
       renderer.dispose();
 
