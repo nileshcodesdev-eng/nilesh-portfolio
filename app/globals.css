@@ -175,3 +175,11 @@
 .grecaptcha-badge {
   visibility: hidden;
 }
+
+/* Ensure Netlify deploy badge doesn't collide with floating UI */
+[data-netlify-deploy-id],
+.netlify-badge,
+iframe#netlify-badge {
+  z-index: 40 !important;
+  opacity: 0.85 !important;
+}

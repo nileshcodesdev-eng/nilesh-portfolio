@@ -118,44 +118,40 @@ const ContactFormInner = ({ useRecaptcha = false }: FormProps) => {
     setIsLoading(true);
 
     try {
+      let recaptchaToken: string | undefined = undefined;
       if (useRecaptcha && executeRecaptcha) {
-        const recaptchaToken = await executeRecaptcha(CONTACT_RECAPTCHA_ACTION);
-
-        const response = await fetch("/api/contact", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: form.name,
-            email: form.email,
-            subject: form.subject,
-            message: form.message,
-            recaptchaToken,
-          }),
-        });
-
-        const data = (await response.json().catch(() => null)) as {
-          error?: string;
-        } | null;
-
-        if (!response.ok) {
-          throw new Error(data?.error ?? "Failed via API");
+        try {
+          recaptchaToken = await executeRecaptcha(CONTACT_RECAPTCHA_ACTION);
+        } catch {
+          // Non-blocking recaptcha fallback
         }
-
-        toast.success("Message sent! I will get back to you ASAP.");
-      } else {
-        // Fallback: Direct Mailto link & clipboard copy so user message is never lost!
-        const mailtoUrl = `mailto:nilesh.codes.dev@gmail.com?subject=${encodeURIComponent(
-          `[Portfolio Contact] ${form.subject}`
-        )}&body=${encodeURIComponent(
-          `Hi Nilesh,\n\nName: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`
-        )}`;
-
-        window.open(mailtoUrl, "_blank");
-        toast.success("Opening your email client. Thank you!");
       }
 
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          subject: form.subject,
+          message: form.message,
+          recaptchaToken,
+        }),
+      });
+
+      const data = (await response.json().catch(() => null)) as {
+        ok?: boolean;
+        error?: string;
+        message?: string;
+      } | null;
+
+      if (!response.ok || !data?.ok) {
+        throw new Error(data?.error ?? data?.message ?? "API delivery unavailable");
+      }
+
+      toast.success("Message sent! I will get back to you ASAP.");
       setForm({
         name: "",
         email: "",
@@ -176,7 +172,7 @@ const ContactFormInner = ({ useRecaptcha = false }: FormProps) => {
         `Hi Nilesh,\n\nName: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`
       )}`;
       window.open(mailtoUrl, "_blank");
-      toast.success("Draft prepared in your email client!");
+      toast.success("Opening email client draft to send directly to Nilesh!");
     } finally {
       setIsLoading(false);
     }

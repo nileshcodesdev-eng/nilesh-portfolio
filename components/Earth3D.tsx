@@ -92,18 +92,23 @@ export const Earth3D: React.FC<Earth3DProps> = ({ className = "" }) => {
     nightTexture.colorSpace = THREE.SRGBColorSpace;
     nightTexture.anisotropy = maxAnisotropy;
 
-    // --- 3. Lighting Setup ---
-    // Primary key sunlight casting cinematic day/night contrast
-    const sunLight = new THREE.DirectionalLight(0xfff6e6, 3.2);
-    sunLight.position.set(5, 2.5, 3.5);
+    // --- 3. Lighting Setup (Brilliant Daytime Sunlight) ---
+    // Primary key sunlight casting radiant daylight across the facing hemisphere
+    const sunLight = new THREE.DirectionalLight(0xfffef5, 4.0);
+    sunLight.position.set(3.5, 2.5, 5.5);
     scene.add(sunLight);
 
-    // Deep space fill light (so the night side is dark yet detailed)
-    const ambientLight = new THREE.AmbientLight(0x060e20, 1.2);
+    // Ethereal celestial blue ambient fill simulating deep space atmospheric bounce
+    const ambientLight = new THREE.HemisphereLight(0xffffff, 0x1a365d, 2.0);
     scene.add(ambientLight);
 
+    // Soft daylight fill
+    const frontFill = new THREE.DirectionalLight(0x93c5fd, 1.4);
+    frontFill.position.set(-3.5, 1.2, 4.5);
+    scene.add(frontFill);
+
     // Electric cyan backlight for atmospheric rim glow
-    const rimBacklight = new THREE.DirectionalLight(0x00e1ff, 2.2);
+    const rimBacklight = new THREE.DirectionalLight(0x38bdf8, 2.2);
     rimBacklight.position.set(-4, -1, -3);
     scene.add(rimBacklight);
 
@@ -128,8 +133,8 @@ export const Earth3D: React.FC<Earth3DProps> = ({ className = "" }) => {
     const earthMesh = new THREE.Mesh(earthGeometry, earthMaterial);
     earthGroup.add(earthMesh);
 
-    // Physically-Accurate Night City Lights Twilight Terminator Shader
-    const sunPos = new THREE.Vector3(5, 2.5, 3.5);
+    // Physically-Accurate Night City Lights (Deep night crescent only, invisible in daylight)
+    const sunPos = new THREE.Vector3(3.5, 2.5, 5.5);
     const nightMaterial = new THREE.ShaderMaterial({
       uniforms: {
         uNightTexture: { value: nightTexture },
@@ -155,11 +160,11 @@ export const Earth3D: React.FC<Earth3DProps> = ({ className = "" }) => {
         void main() {
           vec3 norm = normalize(vNormal);
           float sunDot = dot(norm, vSunDir);
-          float nightFactor = smoothstep(0.12, -0.18, sunDot);
+          float nightFactor = smoothstep(-0.4, -0.8, sunDot);
 
           vec4 nightTex = texture2D(uNightTexture, vUv);
-          vec3 cityGlow = nightTex.rgb * vec3(1.3, 1.12, 0.85) * 1.9;
-          gl_FragColor = vec4(cityGlow, nightTex.a * nightFactor * 0.95);
+          vec3 cityGlow = nightTex.rgb * vec3(1.2, 0.98, 0.72) * 1.1;
+          gl_FragColor = vec4(cityGlow, nightTex.a * nightFactor * 0.75);
         }
       `,
       blending: THREE.AdditiveBlending,

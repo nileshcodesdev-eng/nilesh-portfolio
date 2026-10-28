@@ -34,8 +34,8 @@ const Nav = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-3 sm:bottom-4 left-3 right-3 sm:left-1/2 sm:-translate-x-1/2 xl:translate-x-0 xl:left-auto xl:right-[2%] xl:bottom-0 xl:top-0 z-50 w-auto xl:w-16 xl:h-screen flex items-center justify-center pointer-events-none">
-      <div className="flex w-full max-w-sm sm:max-w-md xl:max-w-none xl:flex-col items-center justify-between sm:justify-center gap-x-1 sm:gap-x-4 xl:gap-y-7 px-3 sm:px-6 xl:px-0 py-2 sm:py-2.5 xl:py-6 bg-[#080a18]/85 backdrop-blur-2xl border border-white/15 rounded-2xl xl:rounded-full shadow-2xl shadow-black/90 pointer-events-auto">
+    <nav className="fixed bottom-10 sm:bottom-6 left-1/2 -translate-x-1/2 xl:translate-x-0 xl:left-auto xl:right-[2%] xl:bottom-0 xl:top-0 z-50 w-[calc(100%-1.5rem)] max-w-sm sm:max-w-md xl:w-16 xl:h-screen flex items-center justify-center pointer-events-none">
+      <div className="flex w-full xl:max-w-none xl:flex-col items-center justify-between sm:justify-center gap-x-1 sm:gap-x-4 xl:gap-y-7 px-3 sm:px-6 xl:px-0 py-2 sm:py-2.5 xl:py-6 bg-[#080a18]/90 backdrop-blur-2xl border border-white/20 rounded-2xl xl:rounded-full shadow-2xl shadow-black/95 pointer-events-auto">
         {navData.map((link, i) => {
           const isActive = link.path === pathname;
           return (

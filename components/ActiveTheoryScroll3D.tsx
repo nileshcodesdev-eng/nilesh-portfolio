@@ -80,20 +80,25 @@ export const ActiveTheoryScroll3D: React.FC<ActiveTheoryScroll3DProps> = ({
     const maxAnisotropy = renderer.capabilities.getMaxAnisotropy();
     const textureLoader = new THREE.TextureLoader();
 
-    // --- 2. Lighting ---
-    // Primary key sunlight casting cinematic day/night contrast
-    const sunPosition = new THREE.Vector3(7.0, 3.5, 5.0);
-    const sunLight = new THREE.DirectionalLight(0xfffbf2, 3.5);
+    // --- 2. Lighting (Brilliant Daytime Sunlight) ---
+    // Primary key sunlight directly illuminating the facing daytime hemisphere
+    const sunPosition = new THREE.Vector3(3.5, 2.8, 6.2);
+    const sunLight = new THREE.DirectionalLight(0xfffef5, 4.2);
     sunLight.position.copy(sunPosition);
     scene.add(sunLight);
 
-    // Deep space fill light
-    const ambientLight = new THREE.AmbientLight(0x0a1428, 1.2);
-    scene.add(ambientLight);
+    // Ethereal celestial blue ambient fill simulating deep space atmospheric bounce
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x1a365d, 2.2);
+    scene.add(hemiLight);
 
-    // Electric cyan backlight for atmospheric rim glow
-    const rimLight = new THREE.DirectionalLight(0x00d4ff, 2.6);
-    rimLight.position.set(-6, -2, -4);
+    // Soft front-left daylight fill so no part of the facing globe is lost in darkness
+    const frontFill = new THREE.DirectionalLight(0x93c5fd, 1.5);
+    frontFill.position.set(-4.0, 1.5, 5.0);
+    scene.add(frontFill);
+
+    // Subtle atmospheric rim back-glow
+    const rimLight = new THREE.DirectionalLight(0x38bdf8, 2.2);
+    rimLight.position.set(-6, -2, -3);
     scene.add(rimLight);
 
     // --- 3. Cosmic Starfield & Meteors ---
@@ -179,22 +184,21 @@ export const ActiveTheoryScroll3D: React.FC<ActiveTheoryScroll3DProps> = ({
     nightTexture.colorSpace = THREE.SRGBColorSpace;
     nightTexture.anisotropy = maxAnisotropy;
 
-    // A. Earth Base Surface (Crystal Clear, High Contrast, Fog-Free)
+    // A. Earth Base Surface (Crystal Clear Brilliant Daylight, Fog-Free)
     const earthGeometry = new THREE.SphereGeometry(earthRadius, 128, 128);
     const earthMaterial = new THREE.MeshStandardMaterial({
       map: dayTexture,
       normalMap: normalTexture,
-      normalScale: new THREE.Vector2(1.5, 1.5), // Crisp mountain & trench relief
+      normalScale: new THREE.Vector2(1.8, 1.8), // Enhanced mountain topography relief
       roughnessMap: specularTexture,
-      roughness: 0.28,
-      metalness: 0.06,
+      roughness: 0.32,
+      metalness: 0.04,
       fog: false, // CRITICAL: Exclude from fog so Earth is razor sharp
     });
     const earthMesh = new THREE.Mesh(earthGeometry, earthMaterial);
     earthGroup.add(earthMesh);
 
-    // B. Physically-Accurate Night City Lights Twilight Terminator Shader
-    // City lights ONLY illuminate on the dark hemisphere and twilight band!
+    // B. Subtle Night City Lights (Only on the deep night crescent, invisible in daylight)
     const nightShaderMat = new THREE.ShaderMaterial({
       uniforms: {
         uNightTexture: { value: nightTexture },
@@ -220,13 +224,12 @@ export const ActiveTheoryScroll3D: React.FC<ActiveTheoryScroll3DProps> = ({
         void main() {
           vec3 norm = normalize(vNormal);
           float sunDot = dot(norm, vSunDir);
-          // Twilight terminator: fades out completely on day side, shines golden on night side
-          float nightFactor = smoothstep(0.12, -0.18, sunDot);
+          // In daytime space photography, city lights are only seen on the deep dark hemisphere
+          float nightFactor = smoothstep(-0.4, -0.8, sunDot);
 
           vec4 nightTex = texture2D(uNightTexture, vUv);
-          // Warm golden-amber city lights boost
-          vec3 cityGlow = nightTex.rgb * vec3(1.3, 1.12, 0.85) * 1.9;
-          gl_FragColor = vec4(cityGlow, nightTex.a * nightFactor * 0.95);
+          vec3 cityGlow = nightTex.rgb * vec3(1.2, 0.98, 0.72) * 1.1;
+          gl_FragColor = vec4(cityGlow, nightTex.a * nightFactor * 0.75);
         }
       `,
       blending: THREE.AdditiveBlending,
@@ -237,7 +240,7 @@ export const ActiveTheoryScroll3D: React.FC<ActiveTheoryScroll3DProps> = ({
     const nightMesh = new THREE.Mesh(earthGeometry, nightShaderMat);
     earthGroup.add(nightMesh);
 
-    // C. Volumetric Dual-Layer Cloud System with Sunlight Shading
+    // C. Volumetric Dual-Layer Cloud System (Brilliant Sunlit White Clouds)
     const cloudsGeometry = new THREE.SphereGeometry(earthRadius * 1.015, 96, 96);
     const cloudsShaderMat = new THREE.ShaderMaterial({
       uniforms: {
@@ -264,12 +267,12 @@ export const ActiveTheoryScroll3D: React.FC<ActiveTheoryScroll3DProps> = ({
         void main() {
           vec3 norm = normalize(vNormal);
           float sunDot = dot(norm, vSunDir);
-          float light = clamp(sunDot * 0.9 + 0.28, 0.08, 1.0);
+          float light = clamp(sunDot * 0.75 + 0.5, 0.35, 1.0);
 
           vec4 cloudTex = texture2D(uCloudsTexture, vUv);
-          // Brilliant white clouds on day side, dark slate on night side
+          // Brilliant radiant white clouds across the sunlit daytime hemisphere
           vec3 cloudColor = vec3(1.0, 1.0, 1.0) * light;
-          gl_FragColor = vec4(cloudColor, cloudTex.r * 0.82);
+          gl_FragColor = vec4(cloudColor, cloudTex.r * 0.76);
         }
       `,
       transparent: true,
@@ -314,8 +317,8 @@ export const ActiveTheoryScroll3D: React.FC<ActiveTheoryScroll3DProps> = ({
         varying vec3 vPosition;
         void main() {
           vec3 viewDir = normalize(-vPosition);
-          float rim = pow(1.0 - max(dot(viewDir, vNormal), 0.0), 4.2);
-          gl_FragColor = vec4(vec3(0.08, 0.78, 1.0), rim * 0.7);
+          float rim = pow(1.0 - max(dot(viewDir, vNormal), 0.0), 3.4);
+          gl_FragColor = vec4(vec3(0.15, 0.72, 1.0), rim * 0.85);
         }
       `,
       transparent: true,
@@ -347,10 +350,10 @@ export const ActiveTheoryScroll3D: React.FC<ActiveTheoryScroll3DProps> = ({
         uniform vec3 uSunDir;
         void main() {
           vec3 viewDir = normalize(-vPosition);
-          float fresnel = pow(1.0 - max(dot(viewDir, vNormal), 0.0), 3.0);
-          float sunDot = max(dot(vNormal, uSunDir), -0.2) + 0.2;
-          vec3 atmosColor = mix(vec3(0.02, 0.45, 0.98), vec3(0.0, 0.88, 1.0), fresnel);
-          gl_FragColor = vec4(atmosColor, fresnel * sunDot * 0.95);
+          float fresnel = pow(1.0 - max(dot(viewDir, vNormal), 0.0), 2.8);
+          float sunDot = max(dot(vNormal, uSunDir), 0.0) * 0.6 + 0.4;
+          vec3 atmosColor = mix(vec3(0.08, 0.62, 1.0), vec3(0.35, 0.85, 1.0), fresnel);
+          gl_FragColor = vec4(atmosColor, fresnel * sunDot * 0.85);
         }
       `,
       blending: THREE.AdditiveBlending,
@@ -899,12 +902,20 @@ export const ActiveTheoryScroll3D: React.FC<ActiveTheoryScroll3DProps> = ({
       const progress = progressRef.current;
       const velocity = velocityRef.current;
 
-      // Active Theory Curved Camera Trajectory:
+      // Active Theory Dynamic Zigzag Trajectory & Zoom:
+      // Multi-wave serpentine flight path with dynamic banking
       const targetZ = 3.8 - progress * 29.3;
-      const targetX = Math.sin(progress * Math.PI * 3.2) * 1.05;
-      const targetY = Math.cos(progress * Math.PI * 2.4) * 0.35;
 
-      // Smooth camera interpolation
+      // Dynamic zigzag oscillations: 6.8 PI produces ~3.5 sweeping zigzag turns across the journey
+      const zigzagPhase = progress * Math.PI * 6.8;
+      const zigzagSweep = Math.sin(zigzagPhase) * 1.95;
+      const harmonicSwoop = Math.sin(progress * Math.PI * 13.6) * 0.35;
+      const targetX = zigzagSweep + harmonicSwoop;
+
+      // Dynamic undulating vertical wave
+      const targetY = Math.cos(progress * Math.PI * 4.6) * 0.65;
+
+      // Smooth camera interpolation with elastic response
       currentCameraZ += (targetZ - currentCameraZ) * 0.085;
       currentCameraX += (targetX - currentCameraX) * 0.085;
       currentCameraY += (targetY - currentCameraY) * 0.085;
@@ -913,14 +924,16 @@ export const ActiveTheoryScroll3D: React.FC<ActiveTheoryScroll3DProps> = ({
       camera.position.x = currentCameraX;
       camera.position.y = currentCameraY;
 
-      // Camera Banking into turns
-      camera.rotation.z = -currentCameraX * 0.06;
+      // Dynamic Flight Banking Roll: tilts camera sideways into each zigzag curve
+      const bankingRoll = -Math.cos(zigzagPhase) * 0.16 * (1 + Math.min(1.5, Math.abs(velocity) * 0.08));
+      camera.rotation.z = bankingRoll;
 
-      // Mouse Parallax Damping
+      // Mouse Parallax + Yaw Steering into zigzag apex
+      const yawSteer = -Math.cos(zigzagPhase) * 0.08;
       currentTiltX += (targetTiltX - currentTiltX) * 0.06;
       currentTiltY += (targetTiltY - currentTiltY) * 0.06;
       camera.rotation.x = currentTiltX;
-      camera.rotation.y = currentTiltY;
+      camera.rotation.y = currentTiltY + yawSteer;
 
       // Dynamic FOV Warping based on scroll velocity
       const targetFov = 46 + Math.min(14, Math.abs(velocity) * 0.22);

@@ -161,7 +161,7 @@ export const ActiveTheoryScrollHUD: React.FC<ActiveTheoryScrollHUDProps> = ({
       </div>
 
       {/* --- Bottom Left Ambient Sound Synthesizer Toggle (Lifted above mobile dock) --- */}
-      <div className="fixed bottom-20 left-3 sm:bottom-6 sm:left-8 pointer-events-auto z-30">
+      <div className="fixed bottom-26 left-3 sm:bottom-6 sm:left-8 pointer-events-auto z-30">
         <button
           onClick={toggleAudio}
           className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/70 border border-white/15 hover:border-cyan-400/50 backdrop-blur-md transition-all duration-300 group shadow-lg text-[9px] sm:text-[10px]"
@@ -187,7 +187,7 @@ export const ActiveTheoryScrollHUD: React.FC<ActiveTheoryScrollHUDProps> = ({
 
       {/* --- Bottom Center Scroll Prompt (Lifted above mobile dock) --- */}
       <div
-        className="fixed bottom-20 left-1/2 -translate-x-1/2 sm:bottom-6 flex flex-col items-center gap-2 pointer-events-none transition-opacity duration-500 uppercase z-20"
+        className="fixed bottom-26 left-1/2 -translate-x-1/2 sm:bottom-6 flex flex-col items-center gap-2 pointer-events-none transition-opacity duration-500 uppercase z-20"
         style={{ opacity: Math.max(0, 1 - progress * 5.5) }}
       >
         <div className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-black/70 backdrop-blur-md border border-white/15 shadow-xl text-[9px] sm:text-[10px]">
